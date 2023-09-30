@@ -1,0 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  font-family: 'Comfortaa', cursive;
+}
+
+.container {
+  @apply mx-auto;
+}
+
+.my-btn {
+  @apply border-b-4 border-r-4 border-base-content shadow rounded-xl cursor-pointer border flex items-center justify-center px-5 py-2.5;
+}
+
+.my-input-group {
+  @apply relative border border-base-content rounded-xl border-b-4 border-r-4 transition-all w-full mx-auto px-4 py-2.5;
+}
+
+.my-label-input {
+  @apply absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-max w-40 text-opacity-70 rounded-md peer-hover:-translate-y-8 peer-focus:-translate-y-8;
+}
+
+.card-border {
+  border-color: transparent;
+  border-radius: 0.375rem;
+  border-width: 1px;
+  left: 0;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  position: absolute;
+  top: 0;
+  transition-duration: 0.3s;
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
