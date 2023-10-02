@@ -1,8 +1,8 @@
 <template>
   <div
-    class="h-screen w-screen flex items-center justify-center bg-base-100/30 backdrop-blur fixed top-0 left-0 z-[999999]"
+    class="h-screen w-screen fixed z-[999999] top-0 left-0 bg-base-100/60 backdrop-blur flex items-center justify-center"
   >
-    <span class="loading loading-spinner text-primary loading-lg"></span>
+    <span class="loading loading-spinner loading-lg"></span>
   </div>
 </template>
 

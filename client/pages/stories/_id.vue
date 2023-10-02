@@ -190,6 +190,11 @@ export default {
       comment: '',
     }
   },
+  head() {
+    return {
+      title: `${this.story.title} - ${this.$config.appName}`,
+    }
+  },
   computed: {
     story() {
       if (this.id) {

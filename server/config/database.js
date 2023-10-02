@@ -7,9 +7,5 @@ export const dbPool = mysql.createPool({
     port: process.env.DB_PORT,
     user: process.env.DB_USER,
     password: process.env.DB_PASS,
-    database: process.env.DB_NAME,
-    connectTimeout: 15,
-    maxIdle: 5,
-    connectionLimit: 5,
-    queueLimit: 5
+    database: process.env.DB_NAME
 }).promise();

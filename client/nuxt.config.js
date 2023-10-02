@@ -4,21 +4,41 @@ export default {
     appName: 'AlviElysium',
   },
   head: {
-    title: 'AlviElysium',
+    title: 'AlviElysium - kembangin dan tulis cerita dengan bakatmu',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' },
+      {
+        hid: 'description',
+        name: 'description',
+        content:
+          'Platform digital yang dirancang untuk menciptakan pengalaman membaca yang mendalam, menginspirasi, dan memikat.',
+      },
       { name: 'format-detection', content: 'telephone=no' },
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+    link: [
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      {
+        rel: 'preconnect',
+        href: 'https://fonts.googleapis.com',
+      },
+      {
+        rel: 'preconnect',
+        href: 'https://fonts.gstatic.com',
+        crossorigin: 'crossorigin', // Jika Anda ingin menambahkan atribut crossorigin
+      },
+      {
+        rel: 'stylesheet',
+        href: 'https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&display=swap',
+      },
+    ],
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: ['~/assets/css/main.css'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [],
+  plugins: ['@/plugins/axios.js'],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -51,7 +71,12 @@ export default {
       lang: 'id',
     },
   },
-
+  loading: {
+    color: 'black',
+    height: '5px',
+    continuous: true,
+    duration: 3000,
+  },
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
 }

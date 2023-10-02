@@ -1,114 +1,154 @@
 import bcrypt from 'bcryptjs'
 import User from '../models/User.js';
-import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv';
+import jwt from 'jsonwebtoken';
 
 dotenv.config();
 export const createUser = async (req, res) => {
     try {
         const {full_name, birthday, username, email, password} = req.body;
+        if (!full_name || !birthday || !username || !email || !password) {
+            return res.status(400).json({message: 'Please fill all fields required'});
+        }
         const passwordV2 = await bcrypt.hashSync(password, 10);
         const data = {
-            full_name: full_name,
-            birthday: birthday,
-            username: username,
-            email: email,
-            password: passwordV2
+            full_name: full_name, birthday: birthday, username: username, email: email, password: passwordV2
         }
-        await User.create(data)
-        return res.status(201).json({message: 'Successfully created user'});
+        const user = await User.createUser(data);
+        if (user) {
+            return res.status(201).json({message: 'Successfully created user'});
+        }
     } catch (e) {
         return res.status(400).json({message: 'Failed create user'});
     }
 }
 
-export const getAllUser = async (req, res) => {
-    try {
-        const response = await User.getAll();
-        return res.status(200).json({users: response});
-    } catch (e) {
-        return res.status(500).json({error: e.message});
-    }
-}
-export const getUserById = async (req, res) => {
-    try {
-        const {user_id} = req.user;
-        console.log(req.user)
-        const response = await User.getById(user_id);
-        return res.status(200).json({user: response});
-    } catch (e) {
-        return res.status(500).json({error: e.message});
-    }
-}
-
-export const getUserByUsername = async (req, res) => {
-    try {
-        const {username} = req.params;
-        const response = await User.getByUsername(username);
-        return res.status(200).json({user: response});
-    } catch (e) {
-        return res.status(500).json({error: e.message});
-    }
-}
-
-export const getUserByEmail = async (req, res) => {
-    try {
-        const {email} = req.params;
-        const {password, ...response} = await User.getByEmail(email);
-        return res.status(200).json({user: response});
-    } catch (e) {
-        return res.status(500).json({error: e.message});
-    }
-}
-
-export const login = async (req, res) => {
+export const loginUser = async (req, res) => {
     try {
         const {email, password} = req.body;
-        const response = await User.getByEmail(email);
-        if (!response) {
-            return res.status(401).json({message: 'Email or password is invalid'});
+        if (!email || !password) {
+            return res.status(400).json({message: 'Please fill all fields required'});
         }
-        const match = await bcrypt.compareSync(password, response.password);
+        const condition = {
+            email: email
+        }
+        const user = await User.getUser(condition);
+        if (!user) {
+            return res.status(401).json({message: 'Email or password is not match'});
+        }
+
+        const match = await bcrypt.compareSync(password, user.password);
         if (!match) {
-            return res.status(401).json({message: 'Email or password is invalid'});
+            return res.status(401).json({message: 'Email or password is not match'});
         }
+
+        const token = await jwt.sign({
+            user_id: user.user_id, username: user.username,
+        }, process.env.JWT_SECRET, {
+            expiresIn: '24h'
+        });
+
         const data = {
-            user_id: response.user_id,
-            username: response.username
+            user_id: user.user_id,
+            email: user.email,
+            full_name: user.full_name,
+            create_at: user.create_at
         }
-        const token = await jwt.sign(data, process.env.JWT_SECRET, {expiresIn: '24h'});
-        console.log(token)
-        return res.status(200).json({message: 'Successfully Login', token});
+        return res.status(201).json({message: 'Successfully loggedIn user', token, user: data});
     } catch (e) {
         return res.status(500).json({error: e.message});
     }
 }
 
-export const updateUserById = async (req, res) => {
+export const getUsers = async (req, res) => {
     try {
-        const {id} = req.params;
-        const {password, ...data} = req.body;
-        const response = await User.updateById(id, data);
-        if (response.changedRows > 0) {
-            return res.status(200).json({message: 'Successfully updated user'});
+        const users = await User.getUsers()
+        if (!users.length > 0) {
+            return res.status(404).json({message: 'Users is empty'});
         }
-        return res.status(204).json({message: 'Operation successful, but no changes were applied as the values were already the same.'});
+
+        let usersData = [];
+
+        for (const user of users) {
+            usersData.push({
+                full_name: user.full_name,
+                username: user.username,
+                create_at: user.create_at
+            });
+        }
+        return res.status(201).json(usersData);
     } catch (e) {
         return res.status(500).json({error: e.message});
     }
 }
 
-
-export const deleteUserById = async (req, res) => {
+export const getUser = async (req, res) => {
     try {
-        const {id} = req.params;
-        const response = await User.deleteById(id);
-        if (response.affectedRows) {
-            return res.status(200).json({message: 'Successfully deleted user'});
+        const {username} = req.params;
+        const user = await User.getUser({username});
+        if (!user) {
+            return res.status(404).json({message: 'User not found'});
         }
-        return res.status(404).json({message: 'User not found'});
+        return res.status(200).json({
+            full_name: user.full_name,
+            username: user.username,
+            create_at: user.create_at
+        });
     } catch (e) {
         return res.status(500).json({error: e.message});
     }
 }
 
+export const getProfile = async (req, res) => {
+    try {
+        const {user_id} = req.user;
+        const {password, ...user} = await User.getUser({user_id});
+        if (!user) {
+            return res.status(404).json({message: 'User not found'});
+        }
+        return res.status(200).json(user);
+    } catch (e) {
+        return res.status(500).json({error: e.message});
+    }
+}
+
+
+export const updateProfile = async (req, res) => {
+    try {
+        const {user_id} = req.user;
+        const {new_password, password, ...data} = req.body;
+        const userData = await User.getUser({user_id});
+        const match = await bcrypt.compareSync(password, userData.password);
+        if (!match) {
+            return res.status(401).json({message: 'Password is invalid'});
+        }
+        if (new_password) {
+            data.password = await bcrypt.hashSync(new_password, 10)
+        }
+
+        const user = await User.updateUser({user_id}, data);
+        if (user.changedRows) {
+            return res.status(200).json({message: "Successfully updated user"})
+        }
+
+        return res.status(204).json({message: "Not content to update"})
+    } catch (e) {
+        return res.status(500).json({error: e.message});
+    }
+}
+
+export const deleteProfile = async (req, res) => {
+    try {
+        const {user_id} = req.user;
+        const {password} = req.body;
+        const userData = await User.getUser({user_id});
+        const match = await bcrypt.compareSync(password, userData.password);
+        if (!match) {
+            return res.status(401).json({message: 'Password is invalid'});
+        }
+        await User.deleteUser({user_id})
+        return res.status(204).json({message: "Not content to update"})
+    } catch (e) {
+        return res.status(500).json({error: e.message});
+    }
+}

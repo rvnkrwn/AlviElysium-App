@@ -1,7 +1,7 @@
 <template>
   <div>
-    <section class="container">
-      <div class="flex flex-col gap-2 mb-2 pt-16 md:pt-28">
+    <div class="container">
+      <div class="flex flex-col gap-2 pt-16 md:pt-28">
         <img src="@/assets/kitty-cat.png" alt="" class="w-72 mx-auto" />
         <div class="text-center">
           <h1
@@ -15,36 +15,45 @@
           </p>
         </div>
       </div>
-      <div v-if="user" class="flex flex-col justify-center items-center gap-2">
-        <nuxt-link :to="'/' + user.username" class="avatar">
-          <div class="w-16 rounded-full">
-            <img
-              src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
-              alt=""
-            />
-          </div>
-        </nuxt-link>
-        <h1 class="text-xl">Hi, {{ user.full_name }}</h1>
+
+      <div class="mt-6">
+        <div
+          v-if="user"
+          class="flex flex-col justify-center items-center gap-2"
+        >
+          <nuxt-link to="/profile" class="avatar">
+            <div
+              class="w-16 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 transition-all hover:ring-secondary"
+            >
+              <img
+                src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+                alt=""
+              />
+            </div>
+          </nuxt-link>
+          <h1 class="text-xl">Hi, {{ user.full_name }}</h1>
+        </div>
+        <div v-else class="flex justify-center items-center gap-4">
+          <nuxt-link
+            to="/login"
+            class="my-btn bg-warning/60 text-warning-content text-sm transition-all duration-200 hover:-mt-2"
+            >Login
+          </nuxt-link>
+          <nuxt-link
+            to="/register"
+            class="my-btn bg-error/60 text-error-content text-sm transition-all duration-200 hover:-mt-2"
+            >Gabung Sekarang
+          </nuxt-link>
+        </div>
       </div>
-      <div v-else class="flex justify-center items-center gap-4">
-        <nuxt-link
-          to="/login"
-          class="my-btn bg-warning/60 text-warning-content text-sm transition-all duration-200 hover:-mt-2"
-          >Login
-        </nuxt-link>
-        <nuxt-link
-          to="/register"
-          class="my-btn bg-error/60 text-error-content text-sm transition-all duration-200 hover:-mt-2"
-          >Gabung Sekarang
-        </nuxt-link>
-      </div>
-    </section>
-    <section class="container">
+    </div>
+
+    <div class="container">
       <div class="p-6 flex flex-col gap-2 max-w-lg mx-auto">
         <div class="my-input-group">
           <input
             id="search"
-            v-model="searchQuery"
+            v-model="keyword"
             type="search"
             name="search"
             class="peer bg-base-100 w-full h-full outline-none"
@@ -53,7 +62,7 @@
             for="search"
             :class="[
               'my-label-input bg-base-100 text-base-content badge peer-hover:border-base-content/70 peer-focus:border-base-content/70',
-              searchQuery.length > 0
+              keyword.length > 0
                 ? '!-translate-y-8 border-base-content/70'
                 : 'border-transparent',
             ]"
@@ -91,34 +100,31 @@
           </button>
         </div>
       </div>
-      <div v-if="searchQuery" class="p-6">
+
+      <div class="p-6">
+        <h1 class="text-xl">Sedang tren teratas</h1>
         <div
-          v-if="SearchStories.length > 0"
-          class="cards my-2 grid gap-4 md:grid-cols-2"
+          v-if="dataStories.length > 0"
+          class="cards grid gap-4 mt-4 md:grid-cols-2 xl:grid-cols-3"
         >
-          <CardItem v-for="s in SearchStories" :key="s.id" :data="s" />
+          <CardItem v-for="s in dataStories" :key="s.id" :data="s" />
         </div>
         <div
           v-else
-          class="flex flex-col items-center justify-center h-72 text-base-content/50"
+          class="cards mt-4 h-40 flex flex-col items-center justify-center"
         >
-          <p>Judul tidak ditemukan</p>
-          <p>404</p>
+          <p>Not Found</p>
+          <p>Search: {{ keyword }}</p>
         </div>
       </div>
-      <div v-else class="p-6">
-        <h1 class="text-xl text-center sm:text-start">Sedang tren teratas</h1>
-        <div class="cards my-4 grid gap-4 md:grid-cols-2">
-          <CardItem v-for="s in stories" :key="s.id" :data="s" />
-        </div>
-      </div>
-    </section>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
   name: 'IndexPage',
+
   data() {
     return {
       categories: [
@@ -142,66 +148,6 @@ export default {
           id: 5,
           name: 'Petualangan',
         },
-        {
-          id: 6,
-          name: 'Horor',
-        },
-        {
-          id: 7,
-          name: 'Komedi',
-        },
-        {
-          id: 8,
-          name: 'Drama',
-        },
-        {
-          id: 9,
-          name: 'Sejarah',
-        },
-        {
-          id: 10,
-          name: 'Thriller',
-        },
-        {
-          id: 11,
-          name: 'Aksi',
-        },
-        {
-          id: 12,
-          name: 'Fiksi Realis',
-        },
-        {
-          id: 13,
-          name: 'Mitraan',
-        },
-        {
-          id: 14,
-          name: 'Supranatural',
-        },
-        {
-          id: 15,
-          name: 'Cerita Anak-Anak',
-        },
-        {
-          id: 16,
-          name: 'Cerita Remaja',
-        },
-        {
-          id: 17,
-          name: 'Politik',
-        },
-        {
-          id: 18,
-          name: 'Kehidupan Kota',
-        },
-        {
-          id: 19,
-          name: 'Cerita Keluarga',
-        },
-        {
-          id: 20,
-          name: 'Cerita Klasik',
-        },
       ],
       categoriesCounter: 4,
       stories: [
@@ -211,7 +157,7 @@ export default {
           author: 'Penulis 1',
           description:
             'Ini adalah deskripsi buku 1 yang cukup panjang dan berisi tentang konten buku ini. Buku ini mengisahkan tentang petualangan seorang tokoh utama yang berjuang melawan segala rintangan dalam hidupnya. Dalam perjalananannya, ia bertemu dengan berbagai karakter menarik dan menghadapi berbagai konflik yang mempengaruhi nasibnya. Baca buku ini untuk mengetahui lebih banyak!',
-          cover: '@/assets/272320068-100-k269695.jpg',
+          cover: 'https://img.wattpad.com/cover/303640066-100-k406345.jpg',
         },
         {
           id: 2,
@@ -219,7 +165,7 @@ export default {
           author: 'Penulis 2',
           description:
             'Buku ini adalah sebuah karya sastra yang memikat hati pembaca dengan alur stories yang kompleks dan karakter yang mendalam. Cerita ini menggambarkan perjalanan seorang individu dalam menemukan jati dirinya dan melawan segala bentuk ketidakadilan. Dengan berbagai twist dan drama, buku ini akan membuat Anda terpaku di halaman-halaman ceritanya.',
-          cover: '@/assets/272320068-100-k269695.jpg',
+          cover: 'https://img.wattpad.com/cover/422987-100-k990535.jpg',
         },
         {
           id: 3,
@@ -227,7 +173,7 @@ export default {
           author: 'Penulis 3',
           description:
             'Dalam buku ini, Anda akan memasuki dunia yang penuh misteri dan petualangan yang tak terlupakan. Sang protagonis, bersama dengan sekutunya, menjelajahi tempat-tempat fantastis dan mengungkap rahasia kuno yang telah tersembunyi selama berabad-abad. Buku ini akan membawa Anda ke dalam perjalanan epik yang tak terlupakan.',
-          cover: '@/assets/272320068-100-k269695.jpg',
+          cover: 'https://img.wattpad.com/cover/272320068-100-k269695.jpg',
         },
         {
           id: 4,
@@ -235,7 +181,7 @@ export default {
           author: 'Penulis 4',
           description:
             'Buku ini adalah sebuah stories cinta yang penuh emosi dan romantisme. Karakter utama berjuang melawan segala rintangan untuk bersatu dengan cinta sejatinya. Dengan latar yang indah dan dialog yang mendalam, buku ini akan membuat hati Anda tersentuh dan berdebar-debar menanti apa yang akan terjadi selanjutnya.',
-          cover: '@/assets/272320068-100-k269695.jpg',
+          cover: 'https://img.wattpad.com/cover/303327265-100-k389967.jpg',
         },
         {
           id: 5,
@@ -243,32 +189,26 @@ export default {
           author: 'Penulis 5',
           description:
             'Dalam buku ini, Anda akan memasuki dunia ilmiah yang menggugah pikiran. Penulis menggali konsep-konsep kompleks dan mengajak pembaca untuk memahami dunia yang lebih dalam. Buku ini adalah perjalanan intelektual yang mengasyikkan bagi siapa pun yang mencari pemahaman yang lebih dalam tentang dunia kita.',
-          cover: '@/assets/272320068-100-k269695.jpg',
+          cover: 'https://img.wattpad.com/cover/135176886-100-k439569.jpg',
         },
       ],
-      searchQuery: '',
+      keyword: '',
     }
   },
   computed: {
     user() {
-      return this.$store.getters['user/getDataUser']
+      return this.$store.getters['auth/user']
     },
-    SearchStories() {
-      if (this.searchQuery) {
+    dataStories() {
+      if (this.keyword) {
         return this.stories.filter(
           (story) =>
-            story.title
-              .toLowerCase()
-              .includes(this.searchQuery.toLowerCase()) ||
-            story.author
-              .toLowerCase()
-              .includes(this.searchQuery.toLowerCase()) ||
-            story.description
-              .toLowerCase()
-              .includes(this.searchQuery.toLowerCase())
+            story.title.toLowerCase().includes(this.keyword.toLowerCase()) ||
+            story.author.toLowerCase().includes(this.keyword.toLowerCase()) ||
+            story.description.toLowerCase().includes(this.keyword.toLowerCase())
         )
       } else {
-        return []
+        return this.stories
       }
     },
     loadCategory() {

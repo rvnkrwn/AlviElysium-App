@@ -1,5 +1,6 @@
 <template>
   <section>
+    <div id="message"></div>
     <div
       class="menus fixed top-4 left-4 z-[9999] flex flex-col md:flex-row gap-2"
     >
@@ -71,7 +72,7 @@
         </button>
 
         <button
-          v-if="user"
+          v-if="isLoggedIn"
           type="button"
           class="my-btn bg-error text-error-content"
           @click="handleLogout"
@@ -135,44 +136,30 @@
         </option>
       </select>
     </div>
-    <AppLoading v-if="isLoading"/>
   </section>
 </template>
 
 <script>
 import Swal from 'sweetalert2'
-import AppLoading from "~/components/TheLoading.vue";
 
 export default {
   name: 'AppHeader',
-  components: {AppLoading},
   data() {
     return {
-      isLoading: false,
       isMenus: false,
-      themes: this.$store.getters['theme/getThemes'],
-      currentTheme: this.$store.getters['theme/getCurrentTheme'],
+      themes: this.$store.getters['config/getThemes'],
+      currentTheme: this.$store.getters['config/getCurrentTheme'],
     }
   },
   computed: {
-    user() {
-      return this.$store.getters['user/getDataUser']
+    isLoggedIn() {
+      return this.$store.getters['auth/isLoggedIn']
     },
   },
   mounted() {
-    window.addEventListener("load", async () => {
-      if (localStorage.getItem("token")) {
-        this.isLoading = true;
-        await this.$store.dispatch("user/setUser");
-      }
-      setTimeout(() => {
-        this.isLoading = false;
-      }, 1000)
-    });
-
-    const self = this;
-    window.addEventListener("click", function (e) {
-      const menus = document.querySelector(".menus");
+    const self = this
+    window.addEventListener('click', function (e) {
+      const menus = document.querySelector('.menus')
       if (!menus.contains(e.target) && self.isMenus) {
         self.handleToggleMenus()
       }
@@ -183,27 +170,44 @@ export default {
       this.isMenus = !this.isMenus
     },
     handleChangeTheme(theme) {
-      this.$store.dispatch('theme/setTheme', theme)
+      this.$store.dispatch('config/setTheme', theme)
     },
     handleChangeRoute(route) {
       this.$router.push(route)
     },
-    async handleFetchUser() {
-      await this.$store.dispatch('user/setUser')
-    },
     handleLogout() {
       Swal.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
+        title: 'Anda yakin?',
+        text: 'Anda ingin keluar dari sini',
+        target: '#message',
+        customClass: {
+          container: 'position-fixed',
+        },
+        toast: true,
+        position: 'center',
         icon: 'warning',
+        showConfirmButton: true,
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, logout',
-      }).then((result) => {
+        confirmButtonText: 'Ya, Keluar',
+        cancelButtonText: 'Kembali',
+      }).then(async (result) => {
         if (result.isConfirmed) {
-          this.$store.dispatch('user/unsetUser')
-          Swal.fire('Logout!', 'Your file has been deleted.', 'success')
+          await this.$store.dispatch('auth/logout')
+          await Swal.fire({
+            text: 'Berhasil keluar',
+            target: '#message',
+            customClass: {
+              container: 'position-fixed',
+            },
+            toast: true,
+            position: 'bottom-right',
+            icon: 'success',
+            showConfirmButton: false,
+            timer: 1500,
+          })
+          await this.$router.push('/')
         }
       })
     },

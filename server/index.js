@@ -9,16 +9,17 @@ const app = express();
 dotenv.config();
 
 
-app.use(cors({
-    origin: (origin, callback) => {
-        if ('http://localhost:3000' === origin){
-            callback(null, true);
-        } else {
-            callback(new Error('Not allowed by CORS'));
-        }
-    }
-}));
+// app.use(cors({
+//     origin: (origin, callback) => {
+//         if ('http://localhost:3000'.includes(origin)){
+//             callback(null, true);
+//         } else {
+//             callback(new Error('Not allowed by CORS'));
+//         }
+//     }
+// }));
 
+app.use(cors())
 app.use(express.json());
 app.use(morgan("combined"));
 

@@ -1,24 +1,26 @@
 import express from 'express';
+import {authMiddleware} from '../middlewares/authMiddleware.js';
 import {
     createUser,
-    deleteUserById,
-    getAllUser,
-    getUserByEmail,
-    getUserById,
-    getUserByUsername,
-    login,
-    updateUserById
+    deleteProfile,
+    getProfile,
+    getUser,
+    getUsers,
+    loginUser,
+    updateProfile
 } from '../controllers/UserController.js';
-import {authMiddleware} from '../middlewares/authMiddleware.js';
 
 const UserRouter = express.Router();
 
-UserRouter.post('/users/register', createUser);
-UserRouter.post('/users/login', login);
-UserRouter.post('/email/:email', getUserByEmail);
+UserRouter.post("/users/register", createUser);
+UserRouter.post("/users/login", loginUser);
+
+UserRouter.get("/users", getUsers);
+UserRouter.get("/users/:username", getUser);
 
 UserRouter.use(authMiddleware);
 
-UserRouter.get('/profile', authMiddleware, getUserById);
-
+UserRouter.get("/profile", getProfile);
+UserRouter.put("/profile", updateProfile);
+UserRouter.delete("/profile", deleteProfile);
 export default UserRouter;
