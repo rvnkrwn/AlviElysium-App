@@ -24,7 +24,22 @@ $ yarn run dev
 $ yarn run generate
 ```
 
-## Server (Express.js v2)
+## Server (Express.js v2);
+
+### .ENV
+```
+PORT=
+
+DB_HOST=
+DB_PORT=
+DB_USER=
+DB_PASS=
+DB_NAME=
+
+JWT_SECRET=3aec7f998e6aa0731af4a52111109223cd5017c8
+
+```
+
 ### Install
 ```shell
 $ yarn install
