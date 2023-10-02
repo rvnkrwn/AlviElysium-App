@@ -68,25 +68,7 @@
             >
           </div>
         </div>
-        <div v-if="isDeleteMode">
-          <form @submit.prevent="handleDelete">
-            <div class="info-user grid grid-cols-1 gap-2 text-sm opacity-100">
-              <div class="grid grid-cols-2 items-center">
-                <label for="email">Password Pengguna: </label>
-                <input
-                  id="password"
-                  v-model="password"
-                  type="password"
-                  name="password"
-                  class="my-input-group outline-none"
-                  autofocus
-                  required
-                />
-              </div>
-              <button type="submit" class="my-btn bg-error text-error-content">Hapus</button>
-            </div>
-          </form>
-        </div>
+        <FormDelete v-if="isDeleteMode" />
         <CardProfile v-if="isReadOnlyMode" />
         <FormEdit v-else />
       </div>
@@ -95,8 +77,6 @@
 </template>
 
 <script>
-import Swal from 'sweetalert2';
-
 export default {
   name: 'ProfilePage',
   middleware: 'auth',
@@ -104,7 +84,6 @@ export default {
     return {
       isReadOnlyMode: true,
       isDeleteMode: false,
-      password: '',
     }
   },
   computed: {
@@ -121,41 +100,6 @@ export default {
     },
     handleDeleteMode() {
       this.isDeleteMode = !this.isDeleteMode
-    },
-    async handleDelete() {
-      try {
-        await this.$store.dispatch('config/setIsLoading', true);
-        await this.$axios.delete('/profile', {data: {password: this.password}});
-        await this.$store.dispatch('config/setIsLoading', false)
-        await Swal.fire({
-          text: 'Berhasil menghapus akun',
-          target: '#message',
-          customClass: {
-            container: 'position-fixed',
-          },
-          toast: true,
-          position: 'bottom-right',
-          icon: 'success',
-          showConfirmButton: false,
-          timer: 1500,
-        })
-        await this.$store.dispatch('auth/logout');
-        await this.$router.push('/')
-      } catch (e) {
-        await this.$store.dispatch('config/setIsLoading', false)
-        await Swal.fire({
-          text: 'Gagal menghapus akun',
-          target: '#message',
-          customClass: {
-            container: 'position-fixed',
-          },
-          toast: true,
-          position: 'bottom-right',
-          icon: 'error',
-          showConfirmButton: false,
-          timer: 1500,
-        })
-      }
     },
   },
 }
