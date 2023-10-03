@@ -128,6 +128,7 @@
     >
       <select
         v-model="currentTheme"
+        name="theme"
         class="bg-transparent font-semibold outline-none capitalize p-[4px] text-xs cursor-pointer"
         @change="handleChangeTheme(currentTheme)"
       >
