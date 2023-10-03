@@ -34,28 +34,20 @@
           readonly
         />
       </div>
-      <div class="grid grid-cols-2 items-center">
-        <label for="email">Ulang Tahun Pengguna: </label>
-        <input
-          id="birthday"
-          type="text"
-          name="birthday"
-          class="my-input-group outline-none cursor-not-allowed"
-          :value="new Date(user?.birthday).toLocaleDateString()"
-          readonly
-          disabled
-        />
-      </div>
     </div>
   </div>
 </template>
 <script>
 export default {
   name: 'CardProfile',
-  computed: {
-    user() {
-      return this.$store.getters['auth/user']
+  props: {
+    user: {
+      type: Object,
+      required: true,
+      default: () => ({}),
     },
+  },
+  computed: {
     isLoading() {
       return this.$store.getters['config/getIsLoading']
     },
