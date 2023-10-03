@@ -4,6 +4,7 @@ import morgan from "morgan";
 import dotenv from "dotenv";
 import {dbPool} from './config/database.js';
 import UserRouter from './routes/UserRouter.js';
+import CategoryRouter from './routes/CategoryRouter.js';
 
 const app = express();
 dotenv.config();
@@ -29,11 +30,12 @@ dbPool.getConnection().then(() => {
     console.log(e)
 })
 
+
 app.get('/', (req, res) => {
     res.status(200).json({message: "REST API FOR ALVIELYSIUM"});
 });
-
 app.use(UserRouter);
+app.use(CategoryRouter);
 
 const PORT = process.env.PORT || 5001;
 
