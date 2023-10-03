@@ -92,6 +92,7 @@ export const getUser = async (req, res) => {
         return res.status(200).json({
             full_name: user.full_name,
             username: user.username,
+            email: user.email,
             create_at: user.create_at
         });
     } catch (e) {
