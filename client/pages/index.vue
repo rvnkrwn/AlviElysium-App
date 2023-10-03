@@ -81,11 +81,11 @@
             Cari sesuatu...</label
           >
         </div>
-        <div class="flex flex-wrap gap-1 mt-2">
+        <div v-if="categories" class="flex flex-wrap gap-1 mt-2">
           <nuxt-link
-            v-for="category in loadCategory"
-            :key="category.id"
-            :to="'/kategori/' + category.id"
+            v-for="category in categories"
+            :key="category?.category_id"
+            :to="'/kategori/' + category.category_id"
             class="my-btn text-xs"
             style="padding: 4px 10px !important"
             >{{ category.name }}
@@ -104,7 +104,7 @@
       <div class="p-6">
         <h1 class="text-xl">Sedang tren teratas</h1>
         <div
-          v-if="dataStories.length > 0"
+          v-if="dataStories"
           class="cards grid gap-4 mt-4 md:grid-cols-2 xl:grid-cols-3"
         >
           <CardItem v-for="s in dataStories" :key="s.id" :data="s" />
@@ -127,30 +127,8 @@ export default {
 
   data() {
     return {
-      categories: [
-        {
-          id: 1,
-          name: 'Fantasi',
-        },
-        {
-          id: 2,
-          name: 'Misteri',
-        },
-        {
-          id: 3,
-          name: 'Sains Fiksi',
-        },
-        {
-          id: 4,
-          name: 'Romantis',
-        },
-        {
-          id: 5,
-          name: 'Petualangan',
-        },
-      ],
       categoriesCounter: 4,
-      stories: [
+      storiesData: [
         {
           id: 1,
           title: 'Buku 1',
@@ -193,11 +171,18 @@ export default {
         },
       ],
       keyword: '',
+      categoriesData: null,
     }
   },
   computed: {
     user() {
       return this.$store.getters['auth/user']
+    },
+    categories() {
+      return this.categoriesData?.slice(0, this.categoriesCounter)
+    },
+    stories() {
+      return this.storiesData
     },
     dataStories() {
       if (this.keyword) {
@@ -211,13 +196,14 @@ export default {
         return this.stories
       }
     },
-    loadCategory() {
-      return this.categories.slice(0, this.categoriesCounter)
-    },
+  },
+  async mounted() {
+    const response = await this.$axios.get(`/categories`)
+    this.categoriesData = response.data
   },
   methods: {
     loadMoreCategories() {
-      this.categoriesCounter = this.categories.length
+      this.categoriesCounter = this.categoriesData.length
     },
   },
 }
