@@ -16,7 +16,7 @@
           autofocus
         />
       </div>
-      <div class="grid grid-cols-2 items-center opacity-70">
+      <div class="grid grid-cols-2 items-center">
         <label for="username">Nama Pengguna: </label>
         <input
           id="username"
@@ -123,7 +123,7 @@ export default {
           showConfirmButton: false,
           timer: 1500,
         })
-        await this.$router.push('/profile');
+        await window.location.reload();
       } catch (e) {
         await this.$store.dispatch('config/setIsLoading', false)
         await Swal.fire({
