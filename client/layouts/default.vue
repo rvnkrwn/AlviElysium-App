@@ -26,7 +26,7 @@ export default {
       return this.$store.getters['config/getIsLoading']
     },
   },
-  async mounted() {
+  async beforeMount() {
     if (!this.$store.getters['auth/isLoggedIn']) {
       await this.$store.dispatch('auth/login')
     }

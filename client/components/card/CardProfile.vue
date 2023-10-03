@@ -20,6 +20,7 @@
           name="username"
           class="my-input-group outline-none cursor-not-allowed"
           :value="user?.username"
+          autocomplete="off"
           readonly
         />
       </div>
@@ -31,6 +32,7 @@
           name="email"
           class="my-input-group outline-none"
           :value="user?.email"
+          autocomplete="off"
           readonly
         />
       </div>

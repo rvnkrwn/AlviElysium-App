@@ -69,7 +69,7 @@
           </div>
         </div>
         <FormDelete v-if="isDeleteMode" />
-        <CardProfile v-if="isReadOnlyMode" :user="user" />
+        <CardProfile v-if="isReadOnlyMode" :user="user ?? {}" />
         <FormEdit v-else />
       </div>
     </div>

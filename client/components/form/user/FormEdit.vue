@@ -24,6 +24,7 @@
           type="text"
           name="username"
           class="my-input-group outline-none"
+          autocomplete="off"
         />
       </div>
       <div class="grid grid-cols-2 items-center">
@@ -34,6 +35,7 @@
           type="text"
           name="email"
           class="my-input-group outline-none"
+          autocomplete="off"
         />
       </div>
       <div class="grid grid-cols-2 items-center">
@@ -121,7 +123,7 @@ export default {
           showConfirmButton: false,
           timer: 1500,
         })
-        await this.$router.push('/profile')
+        await this.$router.push('/profile');
       } catch (e) {
         await this.$store.dispatch('config/setIsLoading', false)
         await Swal.fire({
