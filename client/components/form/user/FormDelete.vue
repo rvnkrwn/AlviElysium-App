@@ -14,13 +14,15 @@
           required
         />
       </div>
-      <button type="submit" class="my-btn bg-error text-error-content">Hapus</button>
+      <button type="submit" class="my-btn bg-error text-error-content">
+        Hapus
+      </button>
     </div>
   </form>
 </template>
 
 <script>
-import Swal from 'sweetalert2';
+import Swal from 'sweetalert2'
 
 export default {
   name: 'FormDelete',
@@ -50,8 +52,10 @@ export default {
       }).then(async (result) => {
         if (result.isConfirmed) {
           try {
-            await this.$store.dispatch('config/setIsLoading', true);
-            await this.$axios.delete('/profile', {data: {password: this.password}});
+            await this.$store.dispatch('config/setIsLoading', true)
+            await this.$axios.delete('/profile', {
+              data: { password: this.password },
+            })
             await this.$store.dispatch('config/setIsLoading', false)
             await Swal.fire({
               text: 'Berhasil menghapus akun',
@@ -65,7 +69,7 @@ export default {
               showConfirmButton: false,
               timer: 1500,
             })
-            await this.$store.dispatch('auth/logout');
+            await this.$store.dispatch('auth/logout')
             await this.$router.push('/')
           } catch (e) {
             await this.$store.dispatch('config/setIsLoading', false)
@@ -85,6 +89,6 @@ export default {
         }
       })
     },
-  }
+  },
 }
 </script>
