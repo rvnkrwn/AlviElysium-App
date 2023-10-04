@@ -88,7 +88,7 @@ export default {
   },
   head() {
     return {
-      title: `${this.user?.full_name} - ${this.$config.appName} | Profile`
+      title: `${this.user?.full_name} - ${this.$config.appName} | Profile`,
     }
   },
   computed: {

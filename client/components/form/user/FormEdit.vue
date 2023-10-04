@@ -123,7 +123,7 @@ export default {
           showConfirmButton: false,
           timer: 1500,
         })
-        await window.location.reload();
+        await window.location.reload()
       } catch (e) {
         await this.$store.dispatch('config/setIsLoading', false)
         await Swal.fire({
