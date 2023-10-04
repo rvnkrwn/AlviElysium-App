@@ -86,6 +86,11 @@ export default {
       isDeleteMode: false,
     }
   },
+  head() {
+    return {
+      title: `${this.user?.full_name} - ${this.$config.appName} | Profile`
+    }
+  },
   computed: {
     user() {
       return this.$store.getters['auth/user']
