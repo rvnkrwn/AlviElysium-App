@@ -26,16 +26,18 @@ export const actions = {
         }
       }
     } catch (e) {
+      Cookies.remove('isLoggedIn')
+      Cookies.remove('token')
       commit('SET_LOGGED_IN', false)
       commit('SET_USER', null)
     }
   },
 
   logout({ commit }) {
-    commit('SET_LOGGED_IN', false)
-    commit('SET_USER', null)
     Cookies.remove('isLoggedIn')
     Cookies.remove('token')
+    commit('SET_LOGGED_IN', false)
+    commit('SET_USER', null)
   },
 }
 
