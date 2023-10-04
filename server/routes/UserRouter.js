@@ -18,9 +18,7 @@ UserRouter.post("/users/login", loginUser);
 UserRouter.get("/users", getUsers);
 UserRouter.get("/users/:username", getUser);
 
-UserRouter.use(authMiddleware);
-
-UserRouter.get("/profile", getProfile);
-UserRouter.put("/profile", updateProfile);
-UserRouter.delete("/profile", deleteProfile);
+UserRouter.get("/profile", authMiddleware, getProfile);
+UserRouter.put("/profile", authMiddleware, updateProfile);
+UserRouter.delete("/profile", authMiddleware, deleteProfile);
 export default UserRouter;
