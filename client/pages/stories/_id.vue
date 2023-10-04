@@ -193,6 +193,13 @@ export default {
   head() {
     return {
       title: `${this.story.title} - ${this.$config.appName}`,
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: this.story.description
+        },
+      ],
     }
   },
   computed: {
