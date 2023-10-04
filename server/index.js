@@ -9,16 +9,17 @@ import CategoryRouter from './routes/CategoryRouter.js';
 const app = express();
 dotenv.config();
 
+const allowOrigin = ['http://localhost:3000']
 
-// app.use(cors({
-//     origin: (origin, callback) => {
-//         if ('http://localhost:3000'.includes(origin)){
-//             callback(null, true);
-//         } else {
-//             callback(new Error('Not allowed by CORS'));
-//         }
-//     }
-// }));
+app.use(cors({
+    origin: (origin, callback) => {
+        if (allowOrigin.includes(origin)){
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    }
+}));
 
 app.use(cors())
 app.use(express.json());
@@ -34,6 +35,7 @@ dbPool.getConnection().then(() => {
 app.get('/', (req, res) => {
     res.status(200).json({message: "REST API FOR ALVIELYSIUM"});
 });
+
 app.use(UserRouter);
 app.use(CategoryRouter);
 
