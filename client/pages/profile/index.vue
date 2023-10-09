@@ -75,7 +75,7 @@
       <div class="relative">
         <div class="flex justify-between items-center">
           <h1 class="text-center text-lg">Daftar Cerita</h1>
-          <nuxt-link to="/profile/manage_stories/add" class="my-btn"
+          <nuxt-link to="/profile/manage_stories/add" class="my-btn text-xs"
             >Buat Cerita
           </nuxt-link>
         </div>
