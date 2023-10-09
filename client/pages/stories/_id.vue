@@ -1,12 +1,13 @@
 <template>
-  <section class="container p-6">
+  <section v-if="story" class="container p-6 pt-16">
     <div class="flex flex-col gap-4 my-6 text-center">
       <img
         :src="story.cover"
+        crossorigin="anonymous"
         alt=""
         class="w-full max-w-[14rem] mx-auto rounded-lg shadow-lg shadow-base-content overflow-hidden"
       />
-      <nuxt-link :to="'/' + story.id">@{{ story.author }}</nuxt-link>
+      <nuxt-link :to="'/' + story.username">@{{ story.username }}</nuxt-link>
       <p class="text-base-content/70 text-sm">{{ story.description }}</p>
       <div class="my-4 flex gap-8 justify-center items-center">
         <button
@@ -75,25 +76,29 @@
       </div>
     </div>
     <div
-      class="h-fit w-full border border-b-4 border-r-4 border-base-content rounded-lg shadow bg-base-200 px-2 py-4 mt-8"
+      class="h-fit w-full border border-b-4 border-r-4 border-base-content rounded-lg shadow p-2 mt-8"
     >
-      <div class="text-center mb-4">
-        <h1 class="text-xl">{{ story.title }}</h1>
+      <div class="text-center border-b border-base-content">
+        <h1 class="text-xl p-2">{{ story.title }}</h1>
       </div>
-      <div class="content">
+      <div v-if="episode" class="content">
         <div
-          v-for="(s, i) in stories"
+          v-for="(s, i) in episode"
           :key="i"
-          class="collapse border-b border-base-content/20 rounded-none"
+          :class="['collapse my-2 rounded-lg p-2', i % 2 === 0 ? 'bg-success/20' : 'bg-info/20']"
         >
           <input type="radio" name="my-accordion-1" :checked="i === 0" />
-          <div class="collapse-title text-lg font-medium">
-            Eps. {{ i + 1 }}: <span class="text-base">Memulai Cerita</span>
-          </div>
-          <div class="collapse-content text-sm">
-            <p>hello {{ i + 1 }}</p>
+          <h1 class="collapse-title text-base font-bold my-btn">{{ s.title }}</h1>
+          <div class="collapse-content text-sm mt-2">
+            <div v-html="s.content"></div>
           </div>
         </div>
+      </div>
+      <div
+        v-else
+        class="h-40 w-full flex items-center justify-center opacity-40"
+      >
+        <h1>Belum ada episode</h1>
       </div>
     </div>
     <div class="my-8">
@@ -144,74 +149,43 @@ export default {
   data() {
     return {
       id: this.$route.params.id,
-      stories: [
-        {
-          id: 1,
-          title: 'Buku 1',
-          author: 'Penulis 1',
-          description:
-            'Ini adalah deskripsi buku 1 yang cukup panjang dan berisi tentang konten buku ini. Buku ini mengisahkan tentang petualangan seorang tokoh utama yang berjuang melawan segala rintangan dalam hidupnya. Dalam perjalananannya, ia bertemu dengan berbagai karakter menarik dan menghadapi berbagai konflik yang mempengaruhi nasibnya. Baca buku ini untuk mengetahui lebih banyak!',
-          cover: 'https://img.wattpad.com/cover/303640066-100-k406345.jpg',
-        },
-        {
-          id: 2,
-          title: 'Buku 2',
-          author: 'Penulis 2',
-          description:
-            'Buku ini adalah sebuah karya sastra yang memikat hati pembaca dengan alur stories yang kompleks dan karakter yang mendalam. Cerita ini menggambarkan perjalanan seorang individu dalam menemukan jati dirinya dan melawan segala bentuk ketidakadilan. Dengan berbagai twist dan drama, buku ini akan membuat Anda terpaku di halaman-halaman ceritanya.',
-          cover: 'https://img.wattpad.com/cover/422987-100-k990535.jpg',
-        },
-        {
-          id: 3,
-          title: 'Buku 3',
-          author: 'Penulis 3',
-          description:
-            'Dalam buku ini, Anda akan memasuki dunia yang penuh misteri dan petualangan yang tak terlupakan. Sang protagonis, bersama dengan sekutunya, menjelajahi tempat-tempat fantastis dan mengungkap rahasia kuno yang telah tersembunyi selama berabad-abad. Buku ini akan membawa Anda ke dalam perjalanan epik yang tak terlupakan.',
-          cover: 'https://img.wattpad.com/cover/272320068-100-k269695.jpg',
-        },
-        {
-          id: 4,
-          title: 'Buku 4',
-          author: 'Penulis 4',
-          description:
-            'Buku ini adalah sebuah stories cinta yang penuh emosi dan romantisme. Karakter utama berjuang melawan segala rintangan untuk bersatu dengan cinta sejatinya. Dengan latar yang indah dan dialog yang mendalam, buku ini akan membuat hati Anda tersentuh dan berdebar-debar menanti apa yang akan terjadi selanjutnya.',
-          cover: 'https://img.wattpad.com/cover/303327265-100-k389967.jpg',
-        },
-        {
-          id: 5,
-          title: 'Buku 5',
-          author: 'Penulis 5',
-          description:
-            'Dalam buku ini, Anda akan memasuki dunia ilmiah yang menggugah pikiran. Penulis menggali konsep-konsep kompleks dan mengajak pembaca untuk memahami dunia yang lebih dalam. Buku ini adalah perjalanan intelektual yang mengasyikkan bagi siapa pun yang mencari pemahaman yang lebih dalam tentang dunia kita.',
-          cover: 'https://img.wattpad.com/cover/135176886-100-k439569.jpg',
-        },
-      ],
       comments: [],
       comment: '',
+      storyData: null,
+      episodeData: null,
     }
   },
   head() {
     return {
-      title: `${this.story.title} - ${this.$config.appName}`,
-      meta: [
-        {
-          hid: 'description',
-          name: 'description',
-          content: this.story.description
-        },
-      ],
+      title: `${this.story?.title} - ${this.$config.appName}`,
     }
   },
   computed: {
     story() {
-      if (this.id) {
-        return this.stories.filter(
-          (s) => s.id.toString() === this.id.toString()
-        )[0]
-      } else {
-        return []
-      }
+      return this.storyData
     },
+    episode() {
+      return this.episodeData
+    },
+  },
+  async mounted() {
+    try {
+      const response = await this.$axios.get(`stories/${this.$route.params.id}`)
+      this.storyData = response.data
+    } catch (e) {
+      return {}
+    }
+
+    if (this.storyData.total_episode > 0) {
+      try {
+        const response = await this.$axios.get(
+          `episodes/${this.story.story_id}`
+        )
+        this.episodeData = response.data
+      } catch (e) {
+        return {}
+      }
+    }
   },
   methods: {
     addComment() {

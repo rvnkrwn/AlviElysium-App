@@ -21,7 +21,7 @@ export default function ({ req, route, redirect }) {
     }
 
     if (!isLoggedIn) {
-      if (route.path === '/profile') {
+      if (route.path.includes('/profile')) {
         redirect('/login')
       }
     }

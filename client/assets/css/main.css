@@ -35,3 +35,7 @@
   transition-property: all;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
+
+.my-border {
+  @apply border-b-4 border-r-4 border-base-content;
+}

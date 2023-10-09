@@ -15,6 +15,7 @@ export default {
           'Platform digital yang dirancang untuk menciptakan pengalaman membaca yang mendalam, menginspirasi, dan memikat.',
       },
       { name: 'format-detection', content: 'telephone=no' },
+      { name: 'Content-Security-Policy', content: "script-src 'self'" },
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
@@ -79,4 +80,8 @@ export default {
   },
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
+
+  router: {
+    middleware: ['auth'],
+  },
 }

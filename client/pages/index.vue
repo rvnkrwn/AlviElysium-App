@@ -2,7 +2,7 @@
   <div>
     <div class="container">
       <div class="flex flex-col gap-2 pt-16 md:pt-28">
-        <img src="@/assets/kitty-cat.png" alt="" class="w-72 mx-auto" />
+        <img src="@/assets/kitty-cat.png" alt="" width="300" class="mx-auto" />
         <div class="text-center">
           <h1
             class="font-black text-xl"
@@ -21,7 +21,11 @@
           v-if="user"
           class="flex flex-col justify-center items-center gap-2"
         >
-          <nuxt-link to="/profile" class="avatar">
+          <nuxt-link
+            to="/profile"
+            class="avatar"
+            aria-label="mengarah ke halaman profile"
+          >
             <div
               class="w-16 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 transition-all hover:ring-secondary"
             >
@@ -56,7 +60,7 @@
             v-model="keyword"
             type="search"
             name="search"
-            class="peer bg-base-100 w-full h-full outline-none"
+            class="peer bg-base-100 w-full h-full outline-none bg-transparent"
           />
           <label
             for="search"
@@ -81,14 +85,14 @@
             Cari sesuatu...</label
           >
         </div>
-        <div v-if="categories" class="flex flex-wrap gap-1 mt-2">
+        <div v-if="!!categories" class="flex flex-wrap gap-1 mt-2">
           <nuxt-link
-            v-for="category in categories"
-            :key="category?.category_id"
-            :to="'/kategori/' + category.category_id"
+            v-for="c in categories"
+            :key="c?.category_id"
+            :to="'/kategori/' + c.id"
             class="my-btn text-xs"
             style="padding: 4px 10px !important"
-            >{{ category.name }}
+            >{{ c.name }}
           </nuxt-link>
           <button
             v-if="categoriesCounter.toString() === '4'"
@@ -100,21 +104,35 @@
           </button>
         </div>
       </div>
-
       <div class="p-6">
         <h1 class="text-xl">Sedang tren teratas</h1>
-        <div
-          v-if="dataStories"
-          class="cards grid gap-4 mt-4 md:grid-cols-2 xl:grid-cols-3"
-        >
-          <CardItem v-for="s in dataStories" :key="s.id" :data="s" />
+        <div v-if="filterStories" class="flex flex-col gap-2">
+          <div
+            class="cards grid gap-4 mt-4 items-center md:grid-cols-2 xl:grid-cols-3"
+          >
+            <nuxt-link
+              v-for="s in filterStories"
+              :key="s.story_id"
+              :to="'/stories/' + s.story_id"
+            >
+              <CardItem :data="s" />
+            </nuxt-link>
+          </div>
+          <button
+            v-if="filterStories.length >= storiesCounter"
+            type="button"
+            class="my-btn m-auto"
+            @click="loadMoreStories"
+          >
+            Load more
+          </button>
         </div>
         <div
           v-else
           class="cards mt-4 h-40 flex flex-col items-center justify-center"
         >
           <p>Not Found</p>
-          <p>Search: {{ keyword }}</p>
+          <p v-if="keyword">Search: {{ keyword }}</p>
         </div>
       </div>
     </div>
@@ -124,59 +142,18 @@
 <script>
 export default {
   name: 'IndexPage',
-
   data() {
     return {
       categoriesCounter: 4,
-      storiesData: [
-        {
-          id: 1,
-          title: 'Buku 1',
-          author: 'Penulis 1',
-          description:
-            'Ini adalah deskripsi buku 1 yang cukup panjang dan berisi tentang konten buku ini. Buku ini mengisahkan tentang petualangan seorang tokoh utama yang berjuang melawan segala rintangan dalam hidupnya. Dalam perjalananannya, ia bertemu dengan berbagai karakter menarik dan menghadapi berbagai konflik yang mempengaruhi nasibnya. Baca buku ini untuk mengetahui lebih banyak!',
-          cover: 'https://img.wattpad.com/cover/303640066-100-k406345.jpg',
-        },
-        {
-          id: 2,
-          title: 'Buku 2',
-          author: 'Penulis 2',
-          description:
-            'Buku ini adalah sebuah karya sastra yang memikat hati pembaca dengan alur stories yang kompleks dan karakter yang mendalam. Cerita ini menggambarkan perjalanan seorang individu dalam menemukan jati dirinya dan melawan segala bentuk ketidakadilan. Dengan berbagai twist dan drama, buku ini akan membuat Anda terpaku di halaman-halaman ceritanya.',
-          cover: 'https://img.wattpad.com/cover/422987-100-k990535.jpg',
-        },
-        {
-          id: 3,
-          title: 'Buku 3',
-          author: 'Penulis 3',
-          description:
-            'Dalam buku ini, Anda akan memasuki dunia yang penuh misteri dan petualangan yang tak terlupakan. Sang protagonis, bersama dengan sekutunya, menjelajahi tempat-tempat fantastis dan mengungkap rahasia kuno yang telah tersembunyi selama berabad-abad. Buku ini akan membawa Anda ke dalam perjalanan epik yang tak terlupakan.',
-          cover: 'https://img.wattpad.com/cover/272320068-100-k269695.jpg',
-        },
-        {
-          id: 4,
-          title: 'Buku 4',
-          author: 'Penulis 4',
-          description:
-            'Buku ini adalah sebuah stories cinta yang penuh emosi dan romantisme. Karakter utama berjuang melawan segala rintangan untuk bersatu dengan cinta sejatinya. Dengan latar yang indah dan dialog yang mendalam, buku ini akan membuat hati Anda tersentuh dan berdebar-debar menanti apa yang akan terjadi selanjutnya.',
-          cover: 'https://img.wattpad.com/cover/303327265-100-k389967.jpg',
-        },
-        {
-          id: 5,
-          title: 'Buku 5',
-          author: 'Penulis 5',
-          description:
-            'Dalam buku ini, Anda akan memasuki dunia ilmiah yang menggugah pikiran. Penulis menggali konsep-konsep kompleks dan mengajak pembaca untuk memahami dunia yang lebih dalam. Buku ini adalah perjalanan intelektual yang mengasyikkan bagi siapa pun yang mencari pemahaman yang lebih dalam tentang dunia kita.',
-          cover: 'https://img.wattpad.com/cover/135176886-100-k439569.jpg',
-        },
-      ],
+      storiesData: null,
       keyword: '',
       categoriesData: null,
+      storiesCounter: 5,
     }
   },
   computed: {
     user() {
-      return this.$store.getters['auth/user']
+      return this.$store.getters['auth/user']?.data
     },
     categories() {
       return this.categoriesData?.slice(0, this.categoriesCounter)
@@ -184,26 +161,39 @@ export default {
     stories() {
       return this.storiesData
     },
-    dataStories() {
-      if (this.keyword) {
+    filterStories() {
+      if (this.keyword && this.stories) {
         return this.stories.filter(
           (story) =>
             story.title.toLowerCase().includes(this.keyword.toLowerCase()) ||
-            story.author.toLowerCase().includes(this.keyword.toLowerCase()) ||
+            story.username.toLowerCase().includes(this.keyword.toLowerCase()) ||
             story.description.toLowerCase().includes(this.keyword.toLowerCase())
         )
       } else {
-        return this.stories
+        return this.stories?.slice(0, this.storiesCounter)
       }
     },
   },
   async mounted() {
-    const response = await this.$axios.get(`/categories`)
-    this.categoriesData = response.data
+    try {
+      const response = await this.$axios.get(`/categories`)
+      this.categoriesData = response.data
+    } catch (e) {
+      return {}
+    }
+    try {
+      const response = await this.$axios.get(`/stories`)
+      this.storiesData = response.data
+    } catch (e) {
+      return {}
+    }
   },
   methods: {
     loadMoreCategories() {
       this.categoriesCounter = this.categoriesData.length
+    },
+    loadMoreStories() {
+      this.storiesCounter += 5
     },
   },
 }

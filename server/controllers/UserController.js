@@ -2,6 +2,7 @@ import bcrypt from 'bcryptjs'
 import User from '../models/User.js';
 import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
+import {Story} from '../models/Story.js';
 
 dotenv.config();
 export const createUser = async (req, res) => {
@@ -43,18 +44,11 @@ export const loginUser = async (req, res) => {
         }
 
         const token = await jwt.sign({
-            user_id: user.user_id, username: user.username,
+            id: user.id, username: user.username,
         }, process.env.JWT_SECRET, {
             expiresIn: '24h'
         });
-
-        const data = {
-            user_id: user.user_id,
-            email: user.email,
-            full_name: user.full_name,
-            create_at: user.create_at
-        }
-        return res.status(201).json({message: 'Successfully loggedIn user', token, user: data});
+        return res.status(201).json({message: 'Successfully loggedIn user', token});
     } catch (e) {
         return res.status(500).json({error: e.message});
     }
@@ -82,19 +76,15 @@ export const getUsers = async (req, res) => {
     }
 }
 
-export const getUser = async (req, res) => {
+export const getUserByUsername = async (req, res) => {
     try {
         const {username} = req.params;
-        const user = await User.getUser({username});
+        const {password, ...user} = await User.getUser({username});
         if (!user) {
             return res.status(404).json({message: 'User not found'});
         }
-        return res.status(200).json({
-            full_name: user.full_name,
-            username: user.username,
-            email: user.email,
-            create_at: user.create_at
-        });
+        const stories = await Story.getStory({user_id: user.id});
+        return res.status(200).json({data: user, stories});
     } catch (e) {
         return res.status(500).json({error: e.message});
     }
@@ -102,23 +92,23 @@ export const getUser = async (req, res) => {
 
 export const getProfile = async (req, res) => {
     try {
-        const {user_id} = req.user;
-        const {password, ...user} = await User.getUser({user_id});
+        const {id} = req.user;
+        const {password, ...user} = await User.getUser({id});
         if (!user) {
             return res.status(404).json({message: 'User not found'});
         }
-        return res.status(200).json(user);
+        const stories = await Story.getStory({user_id: id});
+        return res.status(200).json({data: user, stories});
     } catch (e) {
         return res.status(500).json({error: e.message});
     }
 }
 
-
 export const updateProfile = async (req, res) => {
     try {
-        const {user_id} = req.user;
+        const {id} = req.user;
         const {new_password, password, ...data} = req.body;
-        const userData = await User.getUser({user_id});
+        const userData = await User.getUser({id});
         const match = await bcrypt.compareSync(password, userData.password);
         if (!match) {
             return res.status(401).json({message: 'Password is invalid'});
@@ -127,7 +117,7 @@ export const updateProfile = async (req, res) => {
             data.password = await bcrypt.hashSync(new_password, 10)
         }
 
-        const user = await User.updateUser({user_id}, data);
+        const user = await User.updateUser({id}, data);
         if (user.changedRows) {
             return res.status(200).json({message: "Successfully updated user"})
         }
@@ -140,14 +130,14 @@ export const updateProfile = async (req, res) => {
 
 export const deleteProfile = async (req, res) => {
     try {
-        const {user_id} = req.user;
+        const {id} = req.user;
         const {password} = req.body;
-        const userData = await User.getUser({user_id});
+        const userData = await User.getUser({id});
         const match = await bcrypt.compareSync(password, userData.password);
         if (!match) {
             return res.status(401).json({message: 'Password is invalid'});
         }
-        await User.deleteUser({user_id})
+        await User.deleteUser({id})
         return res.status(204).json({message: "Not content to update"})
     } catch (e) {
         return res.status(500).json({error: e.message});

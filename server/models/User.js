@@ -7,7 +7,7 @@ class User {
     }
 
     static getUsers = async () => {
-        const [result] = await dbPool.query('SELECT * FROM Users');
+        const [result] = await dbPool.query('SELECT id, full_name, username, avatar, create_at FROM Users');
         return result;
     }
 

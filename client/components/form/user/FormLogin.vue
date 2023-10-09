@@ -103,6 +103,7 @@ export default {
         await this.$store.dispatch('auth/login')
         await this.$router.push('/')
       } catch (e) {
+        await this.$store.dispatch('config/setIsLoading', false)
         await Swal.fire({
           text: 'Anda gagal login',
           target: '#message',
@@ -115,7 +116,6 @@ export default {
           showConfirmButton: false,
           timer: 1500,
         })
-        await this.$store.dispatch('config/setIsLoading', false)
       }
     },
   },

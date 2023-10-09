@@ -16,7 +16,7 @@ export const getCategories = async (req, res) => {
         if (!categories.length > 0) {
             return res.status(404).json({message: 'Categories is empty'});
         }
-        return res.status(201).json(categories);
+        return res.status(200).json(categories);
     } catch (e) {
         return res.status(500).json({error: e.message});
     }

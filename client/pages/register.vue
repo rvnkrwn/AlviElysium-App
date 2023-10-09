@@ -20,6 +20,5 @@
 <script>
 export default {
   name: 'RegisterPage',
-  middleware: 'auth',
 }
 </script>

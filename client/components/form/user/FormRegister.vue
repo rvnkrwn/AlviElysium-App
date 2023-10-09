@@ -174,6 +174,7 @@ export default {
         })
         await this.$router.push('/login')
       } catch (e) {
+        await this.$store.dispatch('config/setIsLoading', false)
         await Swal.fire({
           text: 'Email atau username telah digunakan',
           target: '#message',
@@ -186,7 +187,6 @@ export default {
           showConfirmButton: false,
           timer: 1500,
         })
-        this.isLoading = false
         this.password = ''
       }
     },

@@ -4,7 +4,7 @@ import {
     createUser,
     deleteProfile,
     getProfile,
-    getUser,
+    getUserByUsername,
     getUsers,
     loginUser,
     updateProfile
@@ -12,13 +12,20 @@ import {
 
 const UserRouter = express.Router();
 
-UserRouter.post("/users/register", createUser);
-UserRouter.post("/users/login", loginUser);
+// create
+UserRouter.post('/users/register', createUser);
 
-UserRouter.get("/users", getUsers);
-UserRouter.get("/users/:username", getUser);
+// read
+UserRouter.post('/users/login', loginUser);
 
-UserRouter.get("/profile", authMiddleware, getProfile);
-UserRouter.put("/profile", authMiddleware, updateProfile);
-UserRouter.delete("/profile", authMiddleware, deleteProfile);
+UserRouter.get('/users', getUsers);
+UserRouter.get('/users/:username', getUserByUsername);
+
+UserRouter.get('/profile', authMiddleware, getProfile);
+
+// update
+UserRouter.put('/profile', authMiddleware, updateProfile);
+
+// delete
+UserRouter.delete('/profile', authMiddleware, deleteProfile);
 export default UserRouter;

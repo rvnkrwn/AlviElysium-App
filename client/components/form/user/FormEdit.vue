@@ -83,10 +83,10 @@ export default {
   data() {
     return {
       isReadOnlyMode: true,
-      full_name: this.$store.getters['auth/user'].full_name,
-      username: this.$store.getters['auth/user'].username,
-      email: this.$store.getters['auth/user'].email,
-      password: this.$store.getters['auth/user'].password,
+      full_name: this.$store.getters['auth/user']?.data.full_name,
+      username: this.$store.getters['auth/user']?.data.username,
+      email: this.$store.getters['auth/user']?.data.email,
+      password: '',
       new_password: '',
     }
   },

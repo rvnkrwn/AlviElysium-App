@@ -23,6 +23,11 @@ export const actions = {
         if (response) {
           commit('SET_LOGGED_IN', true)
           commit('SET_USER', response.data)
+        } else {
+          Cookies.remove('isLoggedIn')
+          Cookies.remove('token')
+          commit('SET_LOGGED_IN', false)
+          commit('SET_USER', null)
         }
       }
     } catch (e) {

@@ -1,46 +1,42 @@
 <template>
-  <div class="container h-screen max-w-xl p-6">
-    <div class="flex flex-col gap-2 pt-16 md:pt-28">
-      <img src="@/assets/kitty-cat.png" alt="" class="w-72 mx-auto" />
-      <div class="text-center">
-        <h1
-          class="font-black text-xl"
-          style="font-family: 'Courier New', serif"
-        >
-          {{ $config.appName }}
-        </h1>
-        <p class="p-2">
-          Tempat buat kamu kembangin dan tulis cerita dengan bakatmu
-        </p>
+  <div class="container max-w-2xl mx-auto pt-20 md:pt-28">
+    <div class="p-6 flex flex-col gap-2">
+      <div
+        class="relative px-6 py-12 flex flex-col items-center justify-center gap-4 border border-base-content rounded-lg border-r-4 border-b-4"
+      >
+        <div class="avatar">
+          <div class="w-20 rounded-full">
+            <img
+              src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+              alt="avatar"
+            />
+          </div>
+        </div>
+        <div class="text-center">
+          <p>Hai, {{ user?.username }}</p>
+          <p>
+            Anggota sejak {{ new Date(user?.created_at).toLocaleDateString() }}
+          </p>
+        </div>
+        <CardProfile :user="user ?? {}" />
+      </div>
+      <div v-if="stories" class="relative px-2 py-8">
+        <h1 class="text-center text-lg">Daftar Cerita</h1>
+        <div class="cards grid gap-4 mt-2 items-center">
+          <nuxt-link
+            v-for="s in stories"
+            :key="s.story_id"
+            :to="'/stories/' + s.story_id"
+          >
+            <CardItem :data="s" />
+          </nuxt-link>
+        </div>
       </div>
       <div
-        class="border p-6 rounded-lg border-r-4 border-b-4 border-base-content"
+        v-else
+        class="cards mt-4 h-40 flex flex-col items-center justify-center"
       >
-        <div
-          v-if="user"
-          class="flex flex-col items-center justify-center gap-2"
-        >
-          <div class="avatar">
-            <div class="w-20 rounded-full">
-              <img
-                src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
-                alt="avatar"
-              />
-            </div>
-          </div>
-          <div class="text-center">
-            <p>@{{ user?.username }}</p>
-            <p>
-              Anggota sejak {{ new Date(user?.create_at).toLocaleDateString() }}
-            </p>
-          </div>
-          <CardProfile :user="user" />
-        </div>
-        <div v-else class="text-center">
-          <!-- Tampilkan pesan atau elemen loading saat data sedang diambil -->
-          <p>Pengguna tidak ditemukan</p>
-          <p>404</p>
-        </div>
+        <p>Not Found</p>
       </div>
     </div>
   </div>
@@ -51,12 +47,16 @@ export default {
   name: 'ProfilePage',
   data() {
     return {
-      userData: null, // Inisialisasi dengan null
+      userData: null,
+      storiesData: null,
     }
   },
   computed: {
     user() {
-      return this.userData // Menggunakan computed property untuk mengakses userData
+      return this.userData
+    },
+    stories() {
+      return this.storiesData
     },
   },
   async created() {
@@ -65,7 +65,8 @@ export default {
       const response = await this.$axios.get(
         `/users/${this.$route.params.username}`
       )
-      this.userData = response.data
+      this.userData = response.data?.data
+      this.storiesData = response.data?.stories
       await this.$store.dispatch('config/setIsLoading', false)
     } catch (error) {
       await this.$store.dispatch('config/setIsLoading', false)

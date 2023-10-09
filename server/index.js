@@ -5,21 +5,27 @@ import dotenv from "dotenv";
 import {dbPool} from './config/database.js';
 import UserRouter from './routes/UserRouter.js';
 import CategoryRouter from './routes/CategoryRouter.js';
+import StoryRouter from './routes/StoryRouter.js';
+import EpisodeRouter from './routes/EpisodeRouter.js';
+import path from 'path';
 
 const app = express();
 dotenv.config();
 
-const allowOrigin = ['http://localhost:3000']
-
-app.use(cors({
-    origin: (origin, callback) => {
-        if (allowOrigin.includes(origin)){
-            callback(null, true);
-        } else {
-            callback(new Error('Not allowed by CORS'));
-        }
-    }
-}));
+// app.use(cors({
+//     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+//     credentials: true,
+//     preflightContinue: false,
+//     optionsSuccessStatus: 204,
+//     origin: (origin, callback) => {
+//         const allowOrigin = ['http://localhost:3000'];
+//         if (allowOrigin.includes(origin)) {
+//             callback(null, true);
+//         } else {
+//             callback(new Error('Not allowed by CORS'));
+//         }
+//     },
+// }));
 
 app.use(cors())
 app.use(express.json());
@@ -38,6 +44,8 @@ app.get('/', (req, res) => {
 
 app.use(UserRouter);
 app.use(CategoryRouter);
+app.use(StoryRouter);
+app.use(EpisodeRouter)
 
 const PORT = process.env.PORT || 5001;
 

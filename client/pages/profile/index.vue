@@ -1,6 +1,6 @@
 <template>
   <div class="container max-w-2xl mx-auto pt-20 md:pt-28">
-    <div class="p-6">
+    <div class="p-6 flex flex-col gap-2">
       <div
         class="relative px-6 py-12 flex flex-col items-center justify-center gap-4 border border-base-content rounded-lg border-r-4 border-b-4"
       >
@@ -15,7 +15,7 @@
         <div class="text-center">
           <p>Hai, {{ user?.username }}</p>
           <p>
-            Anggota sejak {{ new Date(user?.create_at).toLocaleDateString() }}
+            Anggota sejak {{ new Date(user?.created_at).toLocaleDateString() }}
           </p>
         </div>
         <div class="flex gap-2 items-center">
@@ -72,14 +72,40 @@
         <CardProfile v-if="isReadOnlyMode" :user="user ?? {}" />
         <FormEdit v-else />
       </div>
+      <div class="relative px-2 py-8">
+        <div class="flex justify-between items-center">
+          <h1 class="text-center text-lg">Daftar Cerita</h1>
+          <nuxt-link to="/profile/manage_stories/add" class="my-btn"
+            >Buat Cerita
+          </nuxt-link>
+        </div>
+        <div v-if="stories?.length" class="cards grid gap-4 mt-2 items-center">
+          <div v-for="s in stories" :key="s.story_id" class="relative">
+            <nuxt-link :to="'/profile/manage_stories/' + s.story_id">
+              <CardItem :data="s" />
+            </nuxt-link>
+            <button
+              type="button"
+              class="my-btn text-xs p-0 bg-error text-error-content absolute right-2 top-2"
+              @click="handleDeleteStory(s.story_id)"
+            >
+              Hapus
+            </button>
+          </div>
+        </div>
+        <div v-else class="cards grid gap-4 mt-2 items-center">
+          <p class="p-4 text-center">Not Found</p>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import Swal from 'sweetalert2'
+
 export default {
   name: 'ProfilePage',
-  middleware: 'auth',
   data() {
     return {
       isReadOnlyMode: true,
@@ -93,7 +119,10 @@ export default {
   },
   computed: {
     user() {
-      return this.$store.getters['auth/user']
+      return this.$store.getters['auth/user']?.data
+    },
+    stories() {
+      return this.$store.getters['auth/user']?.stories
     },
     isLoading() {
       return this.$store.getters['config/getIsLoading']
@@ -105,6 +134,60 @@ export default {
     },
     handleDeleteMode() {
       this.isDeleteMode = !this.isDeleteMode
+    },
+    handleDeleteStory(id) {
+      Swal.fire({
+        title: 'Anda yakin menghapus cerita ini?',
+        text: 'Ini tidak dapat dikembalikan',
+        target: '#message',
+        customClass: {
+          container: 'position-fixed',
+        },
+        toast: true,
+        position: 'center',
+        icon: 'warning',
+        showConfirmButton: true,
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Ya, Keluar',
+        cancelButtonText: 'Kembali',
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          try {
+            await this.$store.dispatch('config/setIsLoading', true)
+            await this.$axios.delete(`/stories/${id}`)
+            await this.$store.dispatch('config/setIsLoading', false)
+            await Swal.fire({
+              text: 'Berhasil menghapus cerita',
+              target: '#message',
+              customClass: {
+                container: 'position-fixed',
+              },
+              toast: true,
+              position: 'bottom-right',
+              icon: 'success',
+              showConfirmButton: false,
+              timer: 1500,
+            })
+            await this.$store.dispatch('auth/login')
+          } catch (e) {
+            await this.$store.dispatch('config/setIsLoading', false)
+            await Swal.fire({
+              text: 'Gagal menghapus cerita',
+              target: '#message',
+              customClass: {
+                container: 'position-fixed',
+              },
+              toast: true,
+              position: 'bottom-right',
+              icon: 'error',
+              showConfirmButton: false,
+              timer: 1500,
+            })
+          }
+        }
+      })
     },
   },
 }
