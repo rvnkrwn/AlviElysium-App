@@ -1,6 +1,6 @@
 <template>
   <div class="container max-w-3xl mx-auto pt-20 md:pt-28">
-    <div class="flex flex-col gap-2">
+    <div class="flex flex-col gap-2 p-4">
       <div
         class="relative px-6 py-12 flex flex-col items-center justify-center gap-4 border border-base-content rounded-lg border-r-4 border-b-4"
       >

@@ -1,6 +1,6 @@
 <template>
   <div class="container max-w-2xl mx-auto pt-20 md:pt-28">
-    <div class="p-6 flex flex-col gap-2">
+    <div class="p-4 flex flex-col gap-2">
       <div
         class="relative px-6 py-12 flex flex-col items-center justify-center gap-4 border border-base-content rounded-lg border-r-4 border-b-4"
       >
@@ -20,7 +20,7 @@
         </div>
         <CardProfile :user="user ?? {}" />
       </div>
-      <div v-if="stories" class="relative px-2 py-8">
+      <div v-if="stories" class="relative">
         <h1 class="text-center text-lg">Daftar Cerita</h1>
         <div class="cards grid gap-4 mt-2 items-center">
           <nuxt-link
