@@ -104,7 +104,7 @@
           </button>
         </div>
       </div>
-      <div class="p-6">
+      <div class="p-4">
         <h1 class="text-xl">Sedang tren teratas</h1>
         <div v-if="filterStories" class="flex flex-col gap-2">
           <div
