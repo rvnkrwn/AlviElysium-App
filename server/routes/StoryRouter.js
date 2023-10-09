@@ -24,6 +24,6 @@ StoryRouter.patch('/stories/:id', authMiddleware, upload.single('cover'), update
 StoryRouter.put('/stories/:id', authMiddleware, updateStory);
 
 // delete
-StoryRouter.delete('/stories/:id', deleteStory);
+StoryRouter.delete('/stories/:id', authMiddleware, deleteStory);
 
 export default StoryRouter;
