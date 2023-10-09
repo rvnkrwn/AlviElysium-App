@@ -85,10 +85,15 @@
         <div
           v-for="(s, i) in episode"
           :key="i"
-          :class="['collapse my-2 rounded-lg p-2', i % 2 === 0 ? 'bg-success/20' : 'bg-info/20']"
+          :class="[
+            'collapse my-2 rounded-lg p-2',
+            i % 2 === 0 ? 'bg-success/20' : 'bg-info/20',
+          ]"
         >
           <input type="radio" name="my-accordion-1" :checked="i === 0" />
-          <h1 class="collapse-title text-base font-bold my-btn">{{ s.title }}</h1>
+          <h1 class="collapse-title text-base font-bold my-btn">
+            {{ s.title }}
+          </h1>
           <div class="collapse-content text-sm mt-2">
             <div v-html="s.content"></div>
           </div>

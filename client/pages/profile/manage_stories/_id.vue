@@ -4,23 +4,24 @@
     <div
       class="h-fit w-full border border-b-4 border-r-4 border-base-content rounded-lg shadow p-2 mt-8"
     >
-      <div
-        class="p-3 border-b flex items-center justify-between"
-      >
+      <div class="p-3 border-b flex items-center justify-between">
         <nuxt-link
           :to="'/profile/manage_stories/episode/' + story.story_id"
           class="my-btn text-xs"
           >Tambah Episode Cerita
         </nuxt-link>
         <div class="">
-          <p>Total episode: {{episode?.length}}</p>
+          <p>Total episode: {{ episode?.length }}</p>
         </div>
       </div>
       <div v-if="episode" class="content">
         <div
           v-for="(s, i) in episode"
           :key="i"
-          :class="['collapse relative my-1', i % 2 === 0 ? 'bg-success/20' : 'bg-info/20']"
+          :class="[
+            'collapse relative my-1',
+            i % 2 === 0 ? 'bg-success/20' : 'bg-info/20',
+          ]"
         >
           <input type="radio" name="my-accordion-1" :checked="i === 0" />
           <h1 class="collapse-title text-lg font-medium">{{ s.title }}</h1>

@@ -1,6 +1,6 @@
 <template>
-  <div class="container max-w-2xl mx-auto pt-20 md:pt-28">
-    <div class="p-6 flex flex-col gap-2">
+  <div class="container max-w-3xl mx-auto pt-20 md:pt-28">
+    <div class="flex flex-col gap-2">
       <div
         class="relative px-6 py-12 flex flex-col items-center justify-center gap-4 border border-base-content rounded-lg border-r-4 border-b-4"
       >
@@ -72,7 +72,7 @@
         <CardProfile v-if="isReadOnlyMode" :user="user ?? {}" />
         <FormEdit v-else />
       </div>
-      <div class="relative px-2 py-8">
+      <div class="relative">
         <div class="flex justify-between items-center">
           <h1 class="text-center text-lg">Daftar Cerita</h1>
           <nuxt-link to="/profile/manage_stories/add" class="my-btn"

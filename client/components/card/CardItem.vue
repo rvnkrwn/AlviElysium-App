@@ -1,6 +1,6 @@
 <template>
   <div
-    class="w-full h-52 max-h-52 bg-base-100 shadow border-base-content border rounded-lg border-b-4 border-r-4 p-2 flex flex-col gap-2 transition-all hover:scale-105"
+    class="w-full h-56 max-h-56 bg-base-100 shadow border-base-content border rounded-lg border-b-4 border-r-4 p-2 flex flex-col gap-2 transition-all hover:scale-105"
   >
     <div class="flex gap-2">
       <img

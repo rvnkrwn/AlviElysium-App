@@ -4,7 +4,7 @@
     <div class="w-full flex gap-4 flex-col mx-auto">
       <div class="relative w-fit mx-auto">
         <img
-          :src="cover??{}"
+          :src="cover ?? {}"
           crossorigin="anonymous"
           alt=""
           class="w-48 h-72 max-w-[14rem] mx-auto rounded-lg shadow-lg shadow-base-content overflow-hidden"
@@ -170,7 +170,7 @@ export default {
       payload: {},
       isChangeCoverMode: false,
       isEditMode: false,
-      coverData: null
+      coverData: null,
     }
   },
   computed: {
@@ -185,7 +185,7 @@ export default {
     },
     cover() {
       return this.coverData
-    }
+    },
   },
   async mounted() {
     try {

@@ -69,7 +69,7 @@
         >
         <img
           v-else
-          :src="cover??{}"
+          :src="cover ?? {}"
           crossorigin="anonymous"
           alt=""
           class="w-48 h-72 max-w-[14rem] mx-auto rounded-lg shadow-lg shadow-base-content overflow-hidden"
@@ -113,7 +113,7 @@ export default {
     return {
       categoriesData: null,
       payload: {},
-      coverData: null
+      coverData: null,
     }
   },
   computed: {
@@ -125,7 +125,7 @@ export default {
     },
     cover() {
       return this.coverData
-    }
+    },
   },
   async mounted() {
     try {

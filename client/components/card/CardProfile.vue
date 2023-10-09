@@ -1,7 +1,7 @@
 <template>
   <div class="mt-4">
     <div class="info-user grid grid-cols-1 gap-2 text-sm opacity-70">
-      <div class="grid grid-cols-2 items-center">
+      <div class="flex flex-wrap gap-2 items-center">
         <label for="full_name">Nama Lengkap: </label>
         <input
           id="full_name"
@@ -12,7 +12,7 @@
           readonly
         />
       </div>
-      <div class="grid grid-cols-2 items-center">
+      <div class="flex flex-wrap gap-2 items-center">
         <label for="username">Nama Pengguna: </label>
         <input
           id="username"
@@ -24,7 +24,7 @@
           readonly
         />
       </div>
-      <div class="grid grid-cols-2 items-center">
+      <div class="flex flex-wrap gap-2 items-center">
         <label for="email">Email Pengguna: </label>
         <input
           id="email"
