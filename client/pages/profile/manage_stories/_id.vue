@@ -4,7 +4,7 @@
     <div
       class="h-fit w-full border border-b-4 border-r-4 border-base-content rounded-lg shadow p-2 mt-8"
     >
-      <div class="p-3 border-b flex items-center justify-between">
+      <div class="p-3 border-b flex items-center justify-between gap-2 flex-wrap">
         <nuxt-link
           :to="'/profile/manage_stories/episode/' + story.story_id"
           class="my-btn text-xs"
