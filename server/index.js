@@ -7,7 +7,6 @@ import UserRouter from './routes/UserRouter.js';
 import CategoryRouter from './routes/CategoryRouter.js';
 import StoryRouter from './routes/StoryRouter.js';
 import EpisodeRouter from './routes/EpisodeRouter.js';
-import path from 'path';
 
 const app = express();
 dotenv.config();
@@ -31,12 +30,11 @@ app.use(cors())
 app.use(express.json());
 app.use(morgan("combined"));
 
-dbPool.getConnection().then(() => {
-    console.log("database connected")
+dbPool.getConnection().then(async () => {
+    console.log("database connected");
 }).catch((e) => {
     console.log(e)
 })
-
 
 app.get('/', (req, res) => {
     res.status(200).json({message: "REST API FOR ALVIELYSIUM"});

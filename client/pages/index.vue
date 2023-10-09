@@ -53,7 +53,7 @@
     </div>
 
     <div class="container">
-      <div class="p-6 flex flex-col gap-2 max-w-lg mx-auto">
+      <div class="p-4 flex flex-col gap-2 max-w-lg mx-auto">
         <div class="my-input-group">
           <input
             id="search"

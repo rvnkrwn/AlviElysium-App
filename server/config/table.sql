@@ -1,0 +1,41 @@
+CREATE TABLE IF NOT EXISTS Users (
+    id         INT AUTO_INCREMENT PRIMARY KEY,
+    full_name  VARCHAR(50)  NOT NULL,
+    birthday   DATE         NOT NULL,
+    username   VARCHAR(100) NOT NULL UNIQUE,
+    email      VARCHAR(100) NOT NULL UNIQUE,
+    password   VARCHAR(255) NOT NULL,
+    avatar     VARCHAR(255),
+    bio        TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS Categories (
+    id          INT AUTO_INCREMENT PRIMARY KEY,
+    name        VARCHAR(100) NOT NULL UNIQUE,
+    description TEXT         NOT NULL,
+    created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS Stories (
+    id          INT AUTO_INCREMENT PRIMARY KEY,
+    user_id     INT          NOT NULL REFERENCES Users (id),
+    category_id INT          NOT NULL REFERENCES Categories (id),
+    title       VARCHAR(100) NOT NULL,
+    cover       VARCHAR(255) NOT NULL,
+    description TEXT         NOT NULL,
+    created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS Episodes (
+    id           INT AUTO_INCREMENT PRIMARY KEY,
+    story_id     INT          NOT NULL REFERENCES Stories (id),
+    title        VARCHAR(255) NOT NULL,
+    content      TEXT         NOT NULL,
+    release_date DATETIME     NOT NULL,
+    created_at   TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+updated_at   TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
