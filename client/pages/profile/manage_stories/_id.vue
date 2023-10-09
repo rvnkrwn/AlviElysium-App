@@ -62,9 +62,6 @@
               </svg>
             </button>
           </div>
-          <div class="collapse-content text-sm">
-            <div v-html="s.content"></div>
-          </div>
         </div>
       </div>
       <div

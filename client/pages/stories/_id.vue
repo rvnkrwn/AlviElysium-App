@@ -1,6 +1,6 @@
 <template>
-  <section v-if="story" class="container p-6 pt-16">
-    <div class="flex flex-col gap-4 my-6 text-center">
+  <section v-if="story" class="container pt-16">
+    <div class="flex flex-col gap-4 my-6 text-center p-6">
       <img
         :src="story.cover"
         crossorigin="anonymous"
@@ -77,7 +77,7 @@
       </div>
     </div>
     <div
-      class="h-fit w-full border border-b-4 border-r-4 border-base-content rounded-lg shadow p-2 mt-8"
+      class="h-fit w-full my-8 p-2"
     >
       <div class="text-center border-b border-base-content">
         <h1 class="text-xl p-2">{{ story.title }}</h1>
@@ -92,7 +92,7 @@
           ]"
         >
           <input type="radio" name="my-accordion-1" :checked="i === 0" />
-          <h1 class="collapse-title text-base font-bold my-btn">
+          <h1 :class="['collapse-title text-base font-bold my-btn', i % 2 === 0 ? 'bg-success/40' : 'bg-info/40']">
             {{ s.title }}
           </h1>
           <div class="collapse-content text-sm mt-2">
@@ -107,7 +107,7 @@
         <h1>Belum ada episode</h1>
       </div>
     </div>
-    <div class="my-8">
+    <div class="my-8 p-6">
       <h1 class="text-center text-xl">Komentar</h1>
       <form action="" @submit.prevent="addComment">
         <div
