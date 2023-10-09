@@ -56,6 +56,7 @@
         <button
           type="button"
           class="relative group bg-base-100/30 border border-base-content border-b-2 border-r-2 p-2 rounded-full transition-all hover:-translate-y-1"
+          @click="handleShare"
         >
           <span
             class="absolute left-1/2 -translate-x-1/2 translate-y-8 text-xs w-max badge badge-outline border-b-2 border-r-2"
@@ -191,8 +192,47 @@ export default {
         return {}
       }
     }
+    console.log(window.location.href)
   },
   methods: {
+    handleShare() {
+      // Teks yang ingin Anda salin
+      const textToCopy = window.location.href;
+
+      const tempTextArea = document.createElement("textarea");
+      tempTextArea.value = textToCopy;
+
+      tempTextArea.style.position = "fixed";
+      tempTextArea.style.top = "0";
+      tempTextArea.style.left = "0";
+      tempTextArea.style.opacity = "0";
+
+      document.body.appendChild(tempTextArea);
+
+      tempTextArea.select();
+
+      try {
+        // Salin teks ke clipboard menggunakan Clipboard API
+        document.execCommand("copy");
+        Swal.fire({
+          text: 'Link URL telah berhasil disalin ke clipboard.',
+          target: '#message',
+          customClass: {
+            container: 'position-fixed',
+          },
+          toast: true,
+          position: 'bottom-right',
+          icon: 'success',
+          showConfirmButton: false,
+          timer: 1500,
+        })
+      } catch (err) {
+        return {}
+      }
+
+      document.body.removeChild(tempTextArea);
+
+    },
     addComment() {
       if (this.comment.length < 3) {
         Swal.fire({
