@@ -91,8 +91,10 @@ export default {
   methods: {
     async handleSubmit() {
       try {
-        await this.$store.dispatch('config/setIsLoading', true);
-        this.payload.release_date = new Date(this.payload.release_date).toLocaleString('en-US', {timeZone: 'Asia/Jakarta'});
+        await this.$store.dispatch('config/setIsLoading', true)
+        this.payload.release_date = new Date(
+          this.payload.release_date
+        ).toLocaleString('en-US', { timeZone: 'Asia/Jakarta' })
         const { data } = await this.$axios.post('/episodes', this.payload)
         await this.$store.dispatch('config/setIsLoading', false)
         await Swal.fire({

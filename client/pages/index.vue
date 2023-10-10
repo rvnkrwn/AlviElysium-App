@@ -2,7 +2,7 @@
   <div>
     <div class="container">
       <div class="flex flex-col gap-2 pt-16 md:pt-28">
-        <img src="@/assets/kitty-cat.png" alt="" width="300" class="mx-auto"/>
+        <img src="@/assets/kitty-cat.png" alt="" width="300" class="mx-auto" />
         <div class="text-center">
           <h1
             class="font-black text-xl"
@@ -41,12 +41,12 @@
           <nuxt-link
             to="/login"
             class="my-btn bg-warning/60 text-warning-content text-sm transition-all duration-200 hover:-mt-2"
-          >Login
+            >Login
           </nuxt-link>
           <nuxt-link
             to="/register"
             class="my-btn bg-error/60 text-error-content text-sm transition-all duration-200 hover:-mt-2"
-          >Gabung Sekarang
+            >Gabung Sekarang
           </nuxt-link>
         </div>
       </div>
@@ -85,24 +85,36 @@
             Cari sesuatu...</label
           >
         </div>
-        <div v-if="!!categories" class="flex flex-wrap items-center gap-2 mt-2">
+        <div v-if="!!categories" class="flex flex-wrap items-center gap-1 mt-2">
           <div
             v-for="c in categories"
-            :key="c?.id" class="flex flex-row-reverse items-center gap-1">
+            :key="c?.id"
+            class="flex flex-row-reverse items-center gap-0.5"
+          >
             <button
-              :class="['my-btn text-xs', filter === c.id ? 'bg-secondary/70 text-secondary-content' : '' ]"
+              :class="[
+                'my-btn text-xs',
+                filter === c.id ? 'bg-secondary/70 text-secondary-content' : '',
+              ]"
               style="padding: 4px 10px !important"
               @click="addFilter(c.id)"
-            >{{ c.name }}
+            >
+              {{ c.name }}
             </button>
-            <span v-if="filter === c.id" class="cursor-pointer" @click="clearFilter">x</span>
+            <span
+              v-if="filter === c.id"
+              class="cursor-pointer"
+              @click="clearFilter"
+              >x</span
+            >
           </div>
           <div v-if="categoriesCounter.toString() === '4'" class="">
             <button
               class="my-btn text-xs"
               style="padding: 4px 10px !important"
               @click="loadMoreCategories"
-            >lainnya
+            >
+              lainnya
             </button>
           </div>
         </div>
@@ -118,7 +130,7 @@
               :key="s.story_id"
               :to="'/stories/' + s.story_id"
             >
-              <CardItem :data="s"/>
+              <CardItem :data="s" />
             </nuxt-link>
           </div>
           <button
@@ -145,6 +157,19 @@
 <script>
 export default {
   name: 'IndexPage',
+  head() {
+    return {
+      title: 'AlviElysium - kembangin dan tulis cerita dengan bakatmu',
+      meta: [
+        {
+          hid: 'keyword',
+          name: 'keyword',
+          content:
+            'alvi, alvielysium, elysium, alvielysium.com, stories, cerita',
+        },
+      ],
+    }
+  },
   data() {
     return {
       categoriesCounter: 4,
@@ -166,12 +191,17 @@ export default {
       return this.storiesData
     },
     filterStories() {
-      if (this.keyword && this.stories || this.filter) {
+      if ((this.keyword && this.stories) || this.filter) {
         return this.stories.filter(
           (story) =>
             (story.title.toLowerCase().includes(this.keyword.toLowerCase()) ||
-              story.username.toLowerCase().includes(this.keyword.toLowerCase()) ||
-              story.description.toLowerCase().includes(this.keyword.toLowerCase())) && (this.filter ? story.category_id === this.filter : true)
+              story.username
+                .toLowerCase()
+                .includes(this.keyword.toLowerCase()) ||
+              story.description
+                .toLowerCase()
+                .includes(this.keyword.toLowerCase())) &&
+            (this.filter ? story.category_id === this.filter : true)
         )
       } else {
         return this.stories?.slice(0, this.storiesCounter)
@@ -200,11 +230,11 @@ export default {
       this.storiesCounter += 5
     },
     addFilter(filter) {
-      this.filter = filter;
+      this.filter = filter
     },
     clearFilter() {
       this.filter = ''
-    }
+    },
   },
 }
 </script>

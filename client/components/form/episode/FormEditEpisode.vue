@@ -82,7 +82,7 @@ export default {
       payload: {
         title: null,
         release_date: null,
-        content: null
+        content: null,
       },
     }
   },
@@ -97,7 +97,11 @@ export default {
         `/episodes/e/${this.$route.params.id}`
       )
       this.payload = response.data
-      const jakartaDatetime = new Date(response.data.release_date.toLocaleString('en-US', { timeZone: "Asia/Jakarta" }));
+      const jakartaDatetime = new Date(
+        response.data.release_date.toLocaleString('en-US', {
+          timeZone: 'Asia/Jakarta',
+        })
+      )
       this.payload.release_date = jakartaDatetime.toISOString().slice(0, 16)
     } catch (e) {
       return {}
@@ -106,8 +110,8 @@ export default {
   methods: {
     async handleSubmit() {
       try {
-        await this.$store.dispatch('config/setIsLoading', true);
-        this.payload.release_date = this.payload.release_date.replace("T", " ")
+        await this.$store.dispatch('config/setIsLoading', true)
+        this.payload.release_date = this.payload.release_date.replace('T', ' ')
         await this.$axios.put(
           `/episodes/${this.$route.params.id}`,
           this.payload

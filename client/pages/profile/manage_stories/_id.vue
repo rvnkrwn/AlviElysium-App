@@ -33,7 +33,9 @@
             <button
               type="button"
               class="px-2 py-1 cursor-pointer z-50 border border-base-content rounded-lg bg-success text-success-content"
-              @click="$router.push(`/profile/manage_stories/episode/edit/${e.id}`)"
+              @click="
+                $router.push(`/profile/manage_stories/episode/edit/${e.id}`)
+              "
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
