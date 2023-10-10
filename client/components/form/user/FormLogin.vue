@@ -99,7 +99,7 @@ export default {
           timer: 1500,
         })
         Cookies.set('isLoggedIn', true, { expires: 7 })
-        Cookies.set('token', data.token, { expires: 7, sameSite: 'none', secure: true })
+        Cookies.set('token', data.token, { expires: 7, sameSite: 'Strict', secure: true })
         await this.$store.dispatch('auth/login')
         await this.$router.push('/')
       } catch (e) {
