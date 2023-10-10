@@ -96,7 +96,6 @@
           type="password"
           name="password"
           class="peer bg-base-100 w-full h-full outline-none"
-          autocomplete="password"
           required
         />
         <label
