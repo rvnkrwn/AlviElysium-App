@@ -7,7 +7,7 @@ export const createEpisode = async (req, res) => {
         const data = req.body;
         const user = req.user
         const stories = await Story.getStory({id: data.story_id});
-        const {user_id} = stories[0]
+        const {user_id} = stories[0];
         if (user.id !== user_id) {
             return res.status(400).json({message: "Error to correct user id"})
         }

@@ -79,7 +79,7 @@ export default {
   data() {
     return {
       payload: {
-        story_id: this.$route.params.id,
+        story_id: this.$route.params.storyId,
       },
     }
   },

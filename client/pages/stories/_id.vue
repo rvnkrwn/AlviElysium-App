@@ -195,11 +195,9 @@ export default {
         return {}
       }
     }
-    console.log(window.location.href)
   },
   methods: {
     handleShare() {
-      // Teks yang ingin Anda salin
       const textToCopy = window.location.href
 
       const tempTextArea = document.createElement('textarea')
