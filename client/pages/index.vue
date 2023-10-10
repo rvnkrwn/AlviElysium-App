@@ -2,7 +2,7 @@
   <div>
     <div class="container">
       <div class="flex flex-col gap-2 pt-16 md:pt-28">
-        <img src="@/assets/kitty-cat.png" alt="" width="300" class="mx-auto" />
+        <img src="@/assets/kitty-cat.png" alt="" width="300" class="mx-auto"/>
         <div class="text-center">
           <h1
             class="font-black text-xl"
@@ -41,12 +41,12 @@
           <nuxt-link
             to="/login"
             class="my-btn bg-warning/60 text-warning-content text-sm transition-all duration-200 hover:-mt-2"
-            >Login
+          >Login
           </nuxt-link>
           <nuxt-link
             to="/register"
             class="my-btn bg-error/60 text-error-content text-sm transition-all duration-200 hover:-mt-2"
-            >Gabung Sekarang
+          >Gabung Sekarang
           </nuxt-link>
         </div>
       </div>
@@ -85,23 +85,26 @@
             Cari sesuatu...</label
           >
         </div>
-        <div v-if="!!categories" class="flex flex-wrap gap-1 mt-2">
-          <nuxt-link
+        <div v-if="!!categories" class="flex flex-wrap items-center gap-2 mt-2">
+          <div
             v-for="c in categories"
-            :key="c?.category_id"
-            :to="'/kategori/' + c.id"
-            class="my-btn text-xs"
-            style="padding: 4px 10px !important"
+            :key="c?.id" class="flex flex-row-reverse items-center gap-1">
+            <button
+              :class="['my-btn text-xs', filter === c.id ? 'bg-secondary/70 text-secondary-content' : '' ]"
+              style="padding: 4px 10px !important"
+              @click="addFilter(c.id)"
             >{{ c.name }}
-          </nuxt-link>
-          <button
-            v-if="categoriesCounter.toString() === '4'"
-            type="button"
-            class="my-btn text-xs"
-            @click="loadMoreCategories"
-          >
-            lainnya
-          </button>
+            </button>
+            <span v-if="filter === c.id" class="cursor-pointer" @click="clearFilter">x</span>
+          </div>
+          <div v-if="categoriesCounter.toString() === '4'" class="">
+            <button
+              class="my-btn text-xs"
+              style="padding: 4px 10px !important"
+              @click="loadMoreCategories"
+            >lainnya
+            </button>
+          </div>
         </div>
       </div>
       <div class="p-4">
@@ -115,7 +118,7 @@
               :key="s.story_id"
               :to="'/stories/' + s.story_id"
             >
-              <CardItem :data="s" />
+              <CardItem :data="s"/>
             </nuxt-link>
           </div>
           <button
@@ -149,6 +152,7 @@ export default {
       keyword: '',
       categoriesData: null,
       storiesCounter: 5,
+      filter: '',
     }
   },
   computed: {
@@ -162,12 +166,12 @@ export default {
       return this.storiesData
     },
     filterStories() {
-      if (this.keyword && this.stories) {
+      if (this.keyword && this.stories || this.filter) {
         return this.stories.filter(
           (story) =>
-            story.title.toLowerCase().includes(this.keyword.toLowerCase()) ||
-            story.username.toLowerCase().includes(this.keyword.toLowerCase()) ||
-            story.description.toLowerCase().includes(this.keyword.toLowerCase())
+            (story.title.toLowerCase().includes(this.keyword.toLowerCase()) ||
+              story.username.toLowerCase().includes(this.keyword.toLowerCase()) ||
+              story.description.toLowerCase().includes(this.keyword.toLowerCase())) && (this.filter ? story.category_id === this.filter : true)
         )
       } else {
         return this.stories?.slice(0, this.storiesCounter)
@@ -195,6 +199,12 @@ export default {
     loadMoreStories() {
       this.storiesCounter += 5
     },
+    addFilter(filter) {
+      this.filter = filter;
+    },
+    clearFilter() {
+      this.filter = ''
+    }
   },
 }
 </script>

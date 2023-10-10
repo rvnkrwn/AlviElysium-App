@@ -1,5 +1,5 @@
 <template>
-  <div class="container pt-20 p-6 max-w-xl">
+  <div class="container max-w-xl">
     <div class="flex flex-col gap-2 pt-16 md:pt-28 mb-8">
       <img src="@/assets/kitty-cat.png" alt="" width="300" class="mx-auto" />
       <div class="text-center">
@@ -14,19 +14,12 @@
         </p>
       </div>
     </div>
-    <FormAddEpisode />
+    <FormEditEpisode />
   </div>
 </template>
 
 <script>
 export default {
-  name: 'PageAddEpisode',
-  async mounted() {
-    try {
-      await this.$axios.get(`stories/${this.$route.params.id}`)
-    } catch (e) {
-      return this.$router.push('/profile')
-    }
-  },
+  name: 'EpisodeEditPage',
 }
 </script>

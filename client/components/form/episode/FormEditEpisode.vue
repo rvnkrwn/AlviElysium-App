@@ -30,6 +30,7 @@
             type="datetime-local"
             name="release_date"
             class="peer bg-base-100 w-full h-full outline-none"
+            value="-05:00"
             autofocus
             required
           />
@@ -72,14 +73,16 @@ import Editor from '@tinymce/tinymce-vue'
 import Swal from 'sweetalert2'
 
 export default {
-  name: 'FormAddEpisode',
+  name: 'FormEditEpisode',
   components: {
     Editor,
   },
   data() {
     return {
       payload: {
-        story_id: this.$route.params.id,
+        title: null,
+        release_date: null,
+        content: null
       },
     }
   },
@@ -88,15 +91,30 @@ export default {
       return this.$store.getters['config/getIsLoading']
     },
   },
+  async mounted() {
+    try {
+      const response = await this.$axios.get(
+        `/episodes/e/${this.$route.params.id}`
+      )
+      this.payload = response.data
+      const jakartaDatetime = new Date(response.data.release_date.toLocaleString('en-US', { timeZone: "Asia/Jakarta" }));
+      this.payload.release_date = jakartaDatetime.toISOString().slice(0, 16)
+    } catch (e) {
+      return {}
+    }
+  },
   methods: {
     async handleSubmit() {
       try {
         await this.$store.dispatch('config/setIsLoading', true);
-        this.payload.release_date = new Date(this.payload.release_date).toLocaleString('en-US', {timeZone: 'Asia/Jakarta'});
-        const { data } = await this.$axios.post('/episodes', this.payload)
+        this.payload.release_date = this.payload.release_date.replace("T", " ")
+        await this.$axios.put(
+          `/episodes/${this.$route.params.id}`,
+          this.payload
+        )
         await this.$store.dispatch('config/setIsLoading', false)
         await Swal.fire({
-          text: data.message,
+          text: 'Berhasil memperbarui episode',
           target: '#message',
           customClass: {
             container: 'position-fixed',
@@ -114,7 +132,7 @@ export default {
       } catch (e) {
         await this.$store.dispatch('config/setIsLoading', false)
         await Swal.fire({
-          text: 'Gagal menambah episode',
+          text: 'Gagal memperbarui episode',
           target: '#message',
           customClass: {
             container: 'position-fixed',

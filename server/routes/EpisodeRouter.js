@@ -1,5 +1,11 @@
 import express from 'express';
-import {createEpisode, deleteEpisode, getEpisodes, updateEpisode} from '../controllers/EpisodeController.js';
+import {
+    createEpisode,
+    deleteEpisode,
+    getEpisode,
+    getEpisodes,
+    updateEpisode
+} from '../controllers/EpisodeController.js';
 import {authMiddleware} from '../middlewares/authMiddleware.js';
 
 const EpisodeRouter = express.Router();
@@ -9,6 +15,8 @@ EpisodeRouter.post('/episodes', authMiddleware, createEpisode);
 
 // read
 EpisodeRouter.get('/episodes/:story_id', getEpisodes);
+EpisodeRouter.get('/episodes/e/:id', getEpisode);
+
 
 // update
 EpisodeRouter.put('/episodes/:id', authMiddleware, updateEpisode);

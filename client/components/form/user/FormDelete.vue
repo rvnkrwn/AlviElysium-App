@@ -1,21 +1,34 @@
 <template>
-  <form @submit.prevent="handleDelete">
-    <div id="message"></div>
+  <form class="mt-4" @submit.prevent="handleDelete">
     <div class="info-user grid grid-cols-1 gap-2 text-sm opacity-100">
-      <div class="grid grid-cols-2 items-center">
-        <label for="email">Password Pengguna: </label>
+      <div class="my-input-group">
         <input
           id="password"
           v-model="password"
           type="password"
           name="password"
-          class="my-input-group outline-none"
-          autofocus
+          class="peer bg-base-100 w-full h-full outline-none"
           required
         />
+        <label
+          for="password"
+          :class="[
+            'my-label-input bg-base-100 text-base-content badge peer-hover:border-base-content/70 peer-focus:border-base-content/70',
+            password.length > 0
+              ? '!-translate-y-8 border-base-content/70'
+              : 'border-transparent',
+          ]"
+          >Isi passwordmu</label
+        >
       </div>
-      <button type="submit" class="my-btn bg-error text-error-content">
-        Hapus
+      <div class="text-xs text-error">
+        <p>Isi password sekarang (lama) anda untuk melanjutkan</p>
+      </div>
+      <button
+        type="submit"
+        class="bg-error text-error-content my-input-group hover:bg-transparent hover:text-base-content"
+      >
+        Simpan
       </button>
     </div>
   </form>
@@ -47,7 +60,7 @@ export default {
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Ya, Keluar',
+        confirmButtonText: 'Ya, hapus',
         cancelButtonText: 'Kembali',
       }).then(async (result) => {
         if (result.isConfirmed) {

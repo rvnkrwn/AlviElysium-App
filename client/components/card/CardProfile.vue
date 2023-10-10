@@ -18,7 +18,7 @@
           id="username"
           type="text"
           name="username"
-          class="my-input-group outline-none cursor-not-allowed"
+          class="my-input-group outline-none"
           :value="user?.username"
           autocomplete="off"
           readonly

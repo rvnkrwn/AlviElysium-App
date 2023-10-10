@@ -5,7 +5,7 @@
         <h1>Formulir Update Data</h1>
         <p>Isi atau ubah data yang ingin diedit</p>
       </div>
-      <div class="grid grid-cols-2 items-center">
+      <div class="flex flex-col gap-2">
         <label for="full_name">Nama Lengkap: </label>
         <input
           id="full_name"
@@ -16,7 +16,7 @@
           autofocus
         />
       </div>
-      <div class="grid grid-cols-2 items-center">
+      <div class="flex flex-col gap-2">
         <label for="username">Nama Pengguna: </label>
         <input
           id="username"
@@ -27,7 +27,7 @@
           autocomplete="off"
         />
       </div>
-      <div class="grid grid-cols-2 items-center">
+      <div class="flex flex-col gap-2">
         <label for="email">Email Pengguna: </label>
         <input
           id="email"
@@ -38,7 +38,7 @@
           autocomplete="off"
         />
       </div>
-      <div class="grid grid-cols-2 items-center">
+      <div class="flex flex-col gap-2">
         <label for="email">Password Baru Pengguna: </label>
         <input
           id="new_password"
@@ -48,7 +48,7 @@
           class="my-input-group outline-none"
         />
       </div>
-      <div class="grid grid-cols-2 items-center">
+      <div class="flex flex-col gap-2">
         <label for="email">Password Lama Pengguna: </label>
         <input
           id="password"
@@ -60,7 +60,10 @@
         />
       </div>
       <div class="text-xs">
-        <p>Isi password sekarang (lama) anda untuk melanjutkan</p>
+        <p>
+          Isi password saat ini untuk konfirmasi
+          <span class="text-error">*</span>
+        </p>
       </div>
       <button
         type="submit"

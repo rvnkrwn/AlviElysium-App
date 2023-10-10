@@ -29,6 +29,16 @@ export const getEpisodes = async (req, res) => {
     }
 }
 
+export const getEpisode = async (req, res) => {
+    try {
+        const {id} = req.params;
+        const episode = await Episode.getEpisodes({id});
+        return res.status(200).json(episode[0]);
+    } catch (e) {
+        return res.status(500).json({message: e.message});
+    }
+}
+
 export const updateEpisode = async (req, res) => {
     try {
         const {id} = req.params;

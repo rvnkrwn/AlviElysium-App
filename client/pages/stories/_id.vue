@@ -76,9 +76,7 @@
         </button>
       </div>
     </div>
-    <div
-      class="h-fit w-full my-8 p-2"
-    >
+    <div class="h-fit w-full my-8 p-2">
       <div class="text-center border-b border-base-content">
         <h1 class="text-xl p-2">{{ story.title }}</h1>
       </div>
@@ -92,7 +90,12 @@
           ]"
         >
           <input type="radio" name="my-accordion-1" :checked="i === 0" />
-          <h1 :class="['collapse-title text-base font-bold my-btn', i % 2 === 0 ? 'bg-success/40' : 'bg-info/40']">
+          <h1
+            :class="[
+              'collapse-title text-base font-bold my-btn',
+              i % 2 === 0 ? 'bg-success/40' : 'bg-info/40',
+            ]"
+          >
             {{ s.title }}
           </h1>
           <div class="collapse-content text-sm mt-2">
@@ -197,23 +200,23 @@ export default {
   methods: {
     handleShare() {
       // Teks yang ingin Anda salin
-      const textToCopy = window.location.href;
+      const textToCopy = window.location.href
 
-      const tempTextArea = document.createElement("textarea");
-      tempTextArea.value = textToCopy;
+      const tempTextArea = document.createElement('textarea')
+      tempTextArea.value = textToCopy
 
-      tempTextArea.style.position = "fixed";
-      tempTextArea.style.top = "0";
-      tempTextArea.style.left = "0";
-      tempTextArea.style.opacity = "0";
+      tempTextArea.style.position = 'fixed'
+      tempTextArea.style.top = '0'
+      tempTextArea.style.left = '0'
+      tempTextArea.style.opacity = '0'
 
-      document.body.appendChild(tempTextArea);
+      document.body.appendChild(tempTextArea)
 
-      tempTextArea.select();
+      tempTextArea.select()
 
       try {
         // Salin teks ke clipboard menggunakan Clipboard API
-        document.execCommand("copy");
+        document.execCommand('copy')
         Swal.fire({
           text: 'Link URL telah berhasil disalin ke clipboard.',
           target: '#message',
@@ -230,8 +233,7 @@ export default {
         return {}
       }
 
-      document.body.removeChild(tempTextArea);
-
+      document.body.removeChild(tempTextArea)
     },
     addComment() {
       if (this.comment.length < 3) {

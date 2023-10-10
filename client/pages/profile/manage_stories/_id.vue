@@ -4,7 +4,9 @@
     <div
       class="h-fit w-full border border-b-4 border-r-4 border-base-content rounded-lg shadow p-2 mt-8"
     >
-      <div class="p-3 border-b flex items-center justify-between gap-2 flex-wrap">
+      <div
+        class="p-3 border-b flex items-center justify-between gap-2 flex-wrap"
+      >
         <nuxt-link
           :to="'/profile/manage_stories/episode/' + story.story_id"
           class="my-btn text-xs"
@@ -16,7 +18,7 @@
       </div>
       <div v-if="episode" class="content">
         <div
-          v-for="(s, i) in episode"
+          v-for="(e, i) in episode"
           :key="i"
           :class="[
             'collapse relative my-1',
@@ -24,13 +26,14 @@
           ]"
         >
           <input type="radio" name="my-accordion-1" :checked="i === 0" />
-          <h1 class="collapse-title text-lg font-medium">{{ s.title }}</h1>
+          <h1 class="collapse-title text-lg font-medium">{{ e.title }}</h1>
           <div
             class="absolute top-1 right-1 flex flex-row items-center justify-center gap-1"
           >
             <button
               type="button"
               class="px-2 py-1 cursor-pointer z-50 border border-base-content rounded-lg bg-success text-success-content"
+              @click="$router.push(`/profile/manage_stories/episode/edit/${e.id}`)"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -47,7 +50,7 @@
             <button
               type="button"
               class="px-2 py-1 cursor-pointer z-50 border border-base-content rounded-lg bg-error text-error-content"
-              @click="handleDeleteEpisode(s.id)"
+              @click="handleDeleteEpisode(e.id)"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -101,6 +104,10 @@ export default {
   async mounted() {
     try {
       const response = await this.$axios.get(`stories/${this.$route.params.id}`)
+      const user = await this.$store.getters['auth/user']
+      if (user.data.id !== response.data.user_id) {
+        return this.$router.push('/profile')
+      }
       this.storyData = response.data
     } catch (e) {
       return this.$router.push('/profile')
@@ -112,6 +119,7 @@ export default {
           `episodes/${this.story.story_id}`
         )
         this.episodeData = response.data
+        console.log(this.episodeData)
       } catch (e) {
         return {}
       }
