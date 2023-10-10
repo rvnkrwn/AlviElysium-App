@@ -87,7 +87,7 @@ export default {
           } catch (e) {
             await this.$store.dispatch('config/setIsLoading', false)
             await Swal.fire({
-              text: 'Gagal menghapus akun',
+              text: 'Hapus semua episode dan cerita kamu dulu',
               target: '#message',
               customClass: {
                 container: 'position-fixed',
