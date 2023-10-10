@@ -20,14 +20,5 @@
 <script>
 export default {
   name: 'RegisterPage',
-  async mounted() {
-    await navigator.geolocation.getCurrentPosition((r, e) => {
-      if (e) {
-        console.log(e)
-      } else {
-        console.log(r)
-      }
-    })
-  },
 }
 </script>

@@ -9,6 +9,7 @@
           type="text"
           name="full_name"
           class="peer bg-base-100 w-full h-full outline-none"
+          autocomplete="name"
           required
         />
         <label
@@ -32,6 +33,7 @@
             'peer bg-base-100 w-full h-full outline-none',
             birthday.length > 0 ? 'text-base-content' : 'text-transparent',
           ]"
+          autocomplete="dob"
           required
         />
         <label
@@ -52,6 +54,7 @@
           type="email"
           name="email"
           class="peer bg-base-100 w-full h-full outline-none"
+          autocomplete="email"
           required
         />
         <label
@@ -72,6 +75,7 @@
           type="text"
           name="username"
           class="peer bg-base-100 w-full h-full outline-none"
+          autocomplete="username"
           required
         />
         <label
@@ -92,6 +96,7 @@
           type="password"
           name="password"
           class="peer bg-base-100 w-full h-full outline-none"
+          autocomplete="password"
           required
         />
         <label
