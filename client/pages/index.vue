@@ -176,7 +176,7 @@ export default {
       storiesData: null,
       keyword: '',
       categoriesData: null,
-      storiesCounter: 5,
+      storiesCounter: 10,
       filter: '',
     }
   },
@@ -227,7 +227,7 @@ export default {
       this.categoriesCounter = this.categoriesData.length
     },
     loadMoreStories() {
-      this.storiesCounter += 5
+      this.storiesCounter += 10
     },
     addFilter(filter) {
       this.filter = filter
