@@ -157,6 +157,16 @@
 <script>
 export default {
   name: 'IndexPage',
+  data() {
+    return {
+      categoriesCounter: 4,
+      storiesData: null,
+      keyword: '',
+      categoriesData: null,
+      storiesCounter: 10,
+      filter: '',
+    }
+  },
   head() {
     return {
       title: 'AlviElysium - kembangin dan tulis cerita dengan bakatmu',
@@ -168,16 +178,6 @@ export default {
             'alvi, alvielysium, elysium, alvielysium.com, stories, cerita',
         },
       ],
-    }
-  },
-  data() {
-    return {
-      categoriesCounter: 4,
-      storiesData: null,
-      keyword: '',
-      categoriesData: null,
-      storiesCounter: 10,
-      filter: '',
     }
   },
   computed: {

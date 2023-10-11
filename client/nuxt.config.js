@@ -50,6 +50,7 @@ export default {
     '@nuxtjs/eslint-module',
     // https://go.nuxtjs.dev/tailwindcss
     '@nuxtjs/tailwindcss',
+    '@nuxtjs/sitemap',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -59,6 +60,28 @@ export default {
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
   ],
+
+  sitemap: {
+    hostname: 'https://alvielysium.com',
+    gzip: true,
+    exclude: ['/profile/**'],
+
+    // eslint-disable-next-line require-await
+    routes: async () => {
+      const dynamicRoutes = []
+      for (let id = 1; id <= 3; id++) {
+        dynamicRoutes.push({
+          url: `/stories/${id}`,
+          title: `Judul Halaman ${id}`,
+          changefreq: 'daily',
+          priority: 1,
+          lastmod: '2023-10-11T07:51:48+00:00',
+        })
+      }
+      const staticRoutes = ['/', '/login', '/register']
+      return [...staticRoutes, ...dynamicRoutes]
+    },
+  },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
@@ -81,6 +104,10 @@ export default {
   },
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
+
+  generate: {
+    fallback: true,
+  },
 
   router: {
     middleware: ['auth'],

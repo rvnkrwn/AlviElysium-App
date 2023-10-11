@@ -26,7 +26,7 @@ export default {
     try {
       const response = await this.$axios.get(
         `stories/${this.$route.params.storyId}`
-      );
+      )
       const user = await this.$store.getters['auth/user']
       if (response.data.user_id !== user.data.id) {
         return this.$router.push('/profile')

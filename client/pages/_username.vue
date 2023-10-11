@@ -65,11 +65,15 @@ export default {
       const response = await this.$axios.get(
         `/users/${this.$route.params.username}`
       )
+      if (!response) {
+        await this.$router.push('/error/404')
+      }
       this.userData = response.data?.data
       this.storiesData = response.data?.stories
       await this.$store.dispatch('config/setIsLoading', false)
     } catch (error) {
       await this.$store.dispatch('config/setIsLoading', false)
+      await this.$router.push('/error/404')
     }
   },
 }

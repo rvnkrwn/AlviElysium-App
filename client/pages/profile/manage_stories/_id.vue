@@ -109,6 +109,8 @@ export default {
       const user = await this.$store.getters['auth/user']
       if (user.data.id !== response.data.user_id) {
         return this.$router.push('/profile')
+      } else {
+        await this.$router.push('/error/404')
       }
       this.storyData = response.data
     } catch (e) {
