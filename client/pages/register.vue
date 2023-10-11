@@ -1,10 +1,8 @@
 <template>
-  <div class="container min-h-screen flex justify-center items-center pt-20">
+  <div class="container min-h-screen flex justify-center items-center pt-16">
     <div class="w-full max-w-lg">
       <div class="mb-6 flex flex-col gap-4">
-        <div class="w-72 mx-auto">
-          <img src="@/assets/kitty-cat.png" alt="" />
-        </div>
+        <img src="@/assets/kitty-cat.png" alt="" width="400" class="mx-auto max-w-full px-2"/>
         <div class="text-center">
           <p>Ayo bergabung dan kembangkan bakatmu!</p>
           <p>

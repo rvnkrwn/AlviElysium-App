@@ -1,8 +1,8 @@
 <template>
   <div>
     <div class="container">
-      <div class="flex flex-col gap-2 pt-16 md:pt-28">
-        <img src="@/assets/kitty-cat.png" alt="" width="300" class="mx-auto" />
+      <div class="flex flex-col gap-2 pt-16">
+        <img src="@/assets/kitty-cat.png" alt="" width="400" class="mx-auto max-w-full px-2" />
         <div class="text-center">
           <h1
             class="font-black text-xl"
