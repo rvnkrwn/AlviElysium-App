@@ -1,6 +1,6 @@
 <template>
   <section v-if="story" class="container p-6 pt-16 relative max-w-2xl">
-    <FormEditStory />
+    <FormEditStory/>
     <div
       class="h-fit w-full border border-b-4 border-r-4 border-base-content rounded-lg shadow p-2 mt-8"
     >
@@ -10,7 +10,7 @@
         <nuxt-link
           :to="'/profile/manage_stories/episode/' + story.story_id"
           class="my-btn text-xs"
-          >Tambah Episode Cerita
+        >Tambah Episode Cerita
         </nuxt-link>
         <div class="">
           <p>Total episode: {{ episode?.length }}</p>
@@ -25,7 +25,7 @@
             i % 2 === 0 ? 'bg-success/20' : 'bg-info/20',
           ]"
         >
-          <input type="radio" name="my-accordion-1" :checked="i === 0" />
+          <input type="radio" name="my-accordion-1" :checked="i === 0"/>
           <h1 class="collapse-title text-lg font-medium">{{ e.title }}</h1>
           <div
             class="absolute top-1 right-1 flex flex-row items-center justify-center gap-1"
@@ -109,8 +109,6 @@ export default {
       const user = await this.$store.getters['auth/user']
       if (user.data.id !== response.data.user_id) {
         return this.$router.push('/profile')
-      } else {
-        await this.$router.push('/error/404')
       }
       this.storyData = response.data
     } catch (e) {
@@ -123,7 +121,6 @@ export default {
           `episodes/${this.story.story_id}`
         )
         this.episodeData = response.data
-        console.log(this.episodeData)
       } catch (e) {
         return {}
       }

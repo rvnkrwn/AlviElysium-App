@@ -59,7 +59,7 @@ export default {
       return this.storiesData
     },
   },
-  async created() {
+  async mounted() {
     try {
       await this.$store.dispatch('config/setIsLoading', true)
       const response = await this.$axios.get(
