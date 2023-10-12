@@ -18,5 +18,11 @@
 <script>
 export default {
   name: 'RegisterPage',
+  head() {
+    return {
+      title: `Daftar | ${this.$config.appName}`,
+
+    }
+  }
 }
 </script>

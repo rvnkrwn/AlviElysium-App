@@ -18,5 +18,11 @@
 <script>
 export default {
   name: 'LoginPage',
+  head() {
+    return {
+      title: `Masuk | ${this.$config.appName}`,
+
+    }
+  }
 }
 </script>
