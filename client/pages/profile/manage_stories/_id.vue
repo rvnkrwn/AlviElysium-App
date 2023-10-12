@@ -106,13 +106,15 @@ export default {
   async mounted() {
     try {
       const response = await this.$axios.get(`stories/${this.$route.params.id}`)
-      const user = await this.$store.getters['auth/user']
-      if (user.data.id !== response.data.user_id) {
-        return this.$router.push('/profile')
+      if (response.data.user_id) {
+        const {data} = await this.$axios.get('/profile');
+        if (response.data.user_id !== data.data.id) {
+          await this.$router.push('/error/404');
+        }
       }
       this.storyData = response.data
     } catch (e) {
-      return this.$router.push('/profile')
+      return await this.$router.push('/error/404');
     }
 
     if (this.storyData.total_episode > 0) {

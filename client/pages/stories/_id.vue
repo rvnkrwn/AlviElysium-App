@@ -8,7 +8,7 @@
           alt=""
           class="w-full max-w-[14rem] mx-auto rounded-lg shadow-lg shadow-base-content overflow-hidden"
         />
-        <h1 class="text-xl md:text-2xl p-2 mt-4">{{ story.title }}</h1>
+        <h1 class="text-xl text-center md:text-2xl p-2 mt-4">{{ story.title }}</h1>
         <p class="text-sm">
           Oleh:
           <nuxt-link :to="'/' + story.username" class="underline"
