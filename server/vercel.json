@@ -1,6 +1,12 @@
 {
   "version": 2,
-  "builds": [],
+  "builds": [
+    {
+      "src": "index.js",
+      "use": "@now/node",
+      "config": { "maxLambdaSize": "50mb" }
+    }
+  ],
   "routes": [
     {
       "src": "/(.*)",
