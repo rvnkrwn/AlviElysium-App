@@ -178,6 +178,13 @@ export default {
             'alvi, alvielysium, elysium, alvielysium.com, stories, cerita',
         },
       ],
+      script: [
+        {
+          src: 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1699646698206174',
+          async: true,
+          crossorigin: 'anonymous'
+        }
+      ]
     }
   },
   computed: {
