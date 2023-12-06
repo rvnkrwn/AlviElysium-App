@@ -7,8 +7,8 @@
   "author": "revan kurniawan <rvnkrwn@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "node src/index.js",
-    "build": "babel src -d dist",
+    "start": "node index.js",
+    "build": "babel . -d dist",
     "vercel-build": "npm run build && npm run start"
   },
   "dependencies": {
