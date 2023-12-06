@@ -6,11 +6,11 @@
   "main": "index.js",
   "author": "revan kurniawan <rvnkrwn@gmail.com>",
   "license": "MIT",
-  "scripts": {
-    "start": "node index.js",
-    "build": "babel src -d dist",
-    "vercel-build": "npm run build && npm run start"
-  },
+"scripts": {
+  "start": "node index.js",
+  "build": "npx babel . -d dist",
+  "vercel-build": "npm run build"
+},
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
