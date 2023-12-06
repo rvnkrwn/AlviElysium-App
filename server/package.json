@@ -8,7 +8,7 @@
   "license": "MIT",
   "scripts": {
     "start": "node index.js",
-    "build": "babel . -d dist",
+    "build": "babel src -d dist",
     "vercel-build": "npm run build && npm run start"
   },
   "dependencies": {
