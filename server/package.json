@@ -7,8 +7,9 @@
   "author": "revan kurniawan <rvnkrwn@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "node main",
-    "dev": "nodemon main"
+    "start": "node src/index.js",
+    "build": "babel src -d dist",
+    "vercel-build": "npm run build && npm run start"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -21,6 +22,8 @@
     "mysql2": "^3.6.1"
   },
   "devDependencies": {
+    "@babel/core": "^7.23.5",
+    "@babel/preset-env": "^7.23.5",
     "nodemon": "^3.0.1"
   }
 }
