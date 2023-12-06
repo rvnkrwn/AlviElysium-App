@@ -8,6 +8,7 @@ export default {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      { name: 'google-adsense-account', content: 'ca-pub-1699646698206174' },
       {
         hid: 'description',
         name: 'description',
