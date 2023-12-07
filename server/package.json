@@ -9,7 +9,7 @@
   "scripts": {
     "start": "node index.js",
     "build": "babel . -d dist",
-    "vercel-build": "npm run build && npm run start",
+    "vercel-build": "npm run build && npm run start"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
